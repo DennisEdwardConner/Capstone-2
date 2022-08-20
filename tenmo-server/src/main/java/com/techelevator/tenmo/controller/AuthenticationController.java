@@ -2,6 +2,7 @@ package com.techelevator.tenmo.controller;
 
 import javax.validation.Valid;
 
+import com.techelevator.tenmo.dao.AccountDao;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
