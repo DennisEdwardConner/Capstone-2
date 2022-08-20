@@ -1,5 +1,6 @@
 package com.techelevator.tenmo;
 
+import com.techelevator.tenmo.UiTests.TenmoFrame;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AuthenticationService;
@@ -35,6 +36,8 @@ public class App {
                 handleRegister();
             } else if (menuSelection == 2) {
                 handleLogin();
+            } else if (menuSelection == 3) {
+                TenmoFrame tenmoApp = new TenmoFrame(authenticationService);
             } else if (menuSelection != 0) {
                 System.out.println("Invalid Selection");
                 consoleService.pause();

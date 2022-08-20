@@ -1,0 +1,5 @@
+2022-08-20T08:53:57.3639527 401 : [no body]
+2022-08-20T08:56:40.2199716 400 : [{"timestamp":"2022-08-20T13:56:40.196+00:00","status":400,"error":"Bad Request","message":"User registration failed.","path":"/register"}]
+2022-08-20T08:56:50.9391468 401 : [no body]
+2022-08-20T09:00:06.8495253 400 : [{"timestamp":"2022-08-20T14:00:06.819+00:00","status":400,"error":"Bad Request","message":"Validation failed for object='registerUserDTO'. Error count: 2","errors":[{"codes":["NotEmpty.registerUserDTO... (947 bytes)]
+2022-08-20T09:00:09.1681263 401 : [no body]
