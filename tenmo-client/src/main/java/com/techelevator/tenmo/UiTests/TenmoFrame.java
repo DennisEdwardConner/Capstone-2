@@ -1,6 +1,6 @@
 package com.techelevator.tenmo.UiTests;
 
-
+import com.techelevator.tenmo.UiTests.loggedInUI.TenmoHome;
 import com.techelevator.tenmo.UiTests.loginUI.TenmoLoginPanel;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.services.AuthenticationService;
@@ -17,7 +17,7 @@ public class TenmoFrame extends JFrame{
 
     //Set Up Frame
     public TenmoFrame(AuthenticationService authenticationService){
-        loginPanel = new TenmoLoginPanel(authenticationService);
+        loginPanel = new TenmoLoginPanel(authenticationService, this);
 
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
@@ -32,5 +32,6 @@ public class TenmoFrame extends JFrame{
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
 
 }

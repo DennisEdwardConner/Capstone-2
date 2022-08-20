@@ -2,6 +2,7 @@ package com.techelevator.tenmo.UiTests.loginUI;
 
 
 import com.techelevator.tenmo.UiTests.MyButton;
+import com.techelevator.tenmo.UiTests.loggedInUI.TenmoHome;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AuthenticationService;
@@ -25,12 +26,15 @@ public class TenmoLoginBody extends JPanel implements ActionListener {
     private JPasswordField passwordField, registerPasswordField;
 
     private MyButton loginButton, registerButton;
+    private JFrame masterFrame;
 
     private AuthenticationService authenticationService;
     private AuthenticatedUser user;
 
-    public TenmoLoginBody(AuthenticationService authenticationService) {
+
+    public TenmoLoginBody(AuthenticationService authenticationService, JFrame masterFrame) {
         this.authenticationService = authenticationService;
+        this.masterFrame = masterFrame;
 
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setLayout(null);
@@ -294,7 +298,15 @@ public class TenmoLoginBody extends JPanel implements ActionListener {
 
             UserCredentials userCredentials = new UserCredentials(usernameField.getText(), passwordField.getText());
             user = authenticationService.login(userCredentials);
-            System.out.println(user.getToken());
+
+            TenmoHome home = new TenmoHome(user);
+            masterFrame.setVisible(false);
+            masterFrame.removeAll();
+            masterFrame.add(home);
+            masterFrame.pack();
+            masterFrame.revalidate();
+            masterFrame.setVisible(true);
+            masterFrame.repaint();
 
         } else if(clickedButton.getName().equals("register")) {
 
