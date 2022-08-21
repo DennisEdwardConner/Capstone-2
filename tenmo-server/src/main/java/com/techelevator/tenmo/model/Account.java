@@ -1,11 +1,19 @@
 package com.techelevator.tenmo.model;
 
+import org.springframework.data.annotation.Id;
+
+import javax.annotation.processing.Generated;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public class Account {
 
+    @NotNull
+    @Id
     private int id;
+    @NotNull
     private int user_id;
+    @NotNull
     private BigDecimal balance;
 
     public int getId() {

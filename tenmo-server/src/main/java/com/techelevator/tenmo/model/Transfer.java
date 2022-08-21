@@ -9,41 +9,9 @@ public class Transfer {
     private int account_from;
     private int account_to;
     private BigDecimal amount;
-    private String transfer_type;
-    private String transfer_status;
-    private String user_from;
-    private String user_to;
 
-    public String getTransfer_type() {
-        return transfer_type;
-    }
+    public Transfer(){
 
-    public void setTransfer_type(String transfer_type) {
-        this.transfer_type = transfer_type;
-    }
-
-    public String getTransfer_status() {
-        return transfer_status;
-    }
-
-    public void setTransfer_status(String transfer_status) {
-        this.transfer_status = transfer_status;
-    }
-
-    public String getUser_from() {
-        return user_from;
-    }
-
-    public void setUser_from(String user_from) {
-        this.user_from = user_from;
-    }
-
-    public String getUser_to() {
-        return user_to;
-    }
-
-    public void setUser_to(String user_to) {
-        this.user_to = user_to;
     }
 
     public int getTransfer_id() {
@@ -96,18 +64,13 @@ public class Transfer {
 
 
     public Transfer(int transfer_id, int transfer_type_id, int transfer_status_id, int account_from,
-                    int account_to, BigDecimal amount, String transfer_type, String transfer_status,
-                    String user_from, String user_to) {
+                    int account_to, BigDecimal amount) {
         this.transfer_id = transfer_id;
         this.transfer_type_id = transfer_type_id;
         this.transfer_status_id = transfer_status_id;
         this.account_from = account_from;
         this.account_to = account_to;
         this.amount = amount;
-        this.transfer_type = transfer_type;
-        this.transfer_status = transfer_status;
-        this.user_from = user_from;
-        this.user_to = user_to;
     }
 
 

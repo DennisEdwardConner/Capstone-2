@@ -4,6 +4,7 @@ import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.model.Account;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class AccountController {
     List<Account> findAllByUserId(@PathVariable int id){
         return accountDao.findAllByUserId(id);
     }
-    @RequestMapping(value = "api/account/user_id/{user_id}")
+    @RequestMapping(value = "api/account/user_id/{user_id}", method = RequestMethod.GET)
     Account findByUserId(@PathVariable int user_id){
         return accountDao.findByUserId(user_id);
     }
