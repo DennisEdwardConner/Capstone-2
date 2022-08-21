@@ -19,7 +19,7 @@ public class TenmoHomePane extends JPanel {
         setPreferredSize(new Dimension(width, height));
         setLayout(new BorderLayout());
 
-        homeBody = new TenmoHomeBody();
+        homeBody = new TenmoHomeBody(user);
         homeHeader = new TenmoHomeHeader();
 
         add(homeBody, BorderLayout.CENTER);
