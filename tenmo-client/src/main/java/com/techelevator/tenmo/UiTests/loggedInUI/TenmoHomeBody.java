@@ -13,7 +13,5 @@ public class TenmoHomeBody extends JPanel {
     }
 
     public void paintComponents(Graphics g){
-        g.setColor(Color.blue);
-        g.fillRect(0, 0, WIDTH, HEIGHT);
     }
 }

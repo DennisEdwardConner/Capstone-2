@@ -2,7 +2,6 @@ package com.techelevator.tenmo.UiTests.loginUI;
 
 
 import com.techelevator.tenmo.UiTests.MyButton;
-import com.techelevator.tenmo.UiTests.loggedInUI.TenmoHome;
 import com.techelevator.tenmo.UiTests.loggedInUI.TenmoHomeFrame;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.UserCredentials;
@@ -309,7 +308,9 @@ public class TenmoLoginBody extends JPanel implements ActionListener {
             }
         } else if(clickedButton.getName().equals("register")) {
 
-            UserCredentials userCredentials = new UserCredentials(registerUsernameField.getText(), registerPasswordField.getText());
+            UserCredentials userCredentials = new UserCredentials("", "");
+            userCredentials.setUsername(registerUsernameField.getText());
+            userCredentials.setPassword(registerPasswordField.getText());
             authenticationService.register(userCredentials);
         }
     }

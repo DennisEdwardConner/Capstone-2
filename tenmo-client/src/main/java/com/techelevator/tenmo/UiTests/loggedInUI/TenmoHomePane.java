@@ -5,24 +5,25 @@ import com.techelevator.tenmo.model.AuthenticatedUser;
 import javax.swing.*;
 import java.awt.*;
 
-public class TenmoHome extends JPanel {
+public class TenmoHomePane extends JPanel {
     private int width = 700;
     private int height = 600;
     private AuthenticatedUser user;
 
     private TenmoHomeBody homeBody;
+    private TenmoHomeHeader homeHeader;
 
-    public TenmoHome(AuthenticatedUser user){
+    public TenmoHomePane(AuthenticatedUser user){
         this.user = user;
+
         setPreferredSize(new Dimension(width, height));
         setLayout(new BorderLayout());
 
         homeBody = new TenmoHomeBody();
+        homeHeader = new TenmoHomeHeader();
+
         add(homeBody, BorderLayout.CENTER);
+        add(homeHeader, BorderLayout.PAGE_START);
     }
 
-    public void paintComponent(Graphics g){
-        g.setColor(Color.blue);
-        g.fillRect(0, 0, width, height);
-    }
 }

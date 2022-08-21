@@ -19,6 +19,9 @@ public class TenmoHomeFrame extends JFrame {
         setResizable(false);
         setTitle(TITLE);
 
+        TenmoHomePane homePane = new TenmoHomePane(user);
+        add(homePane);
+
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
