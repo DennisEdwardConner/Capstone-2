@@ -69,8 +69,7 @@ public class App {
         currentUser = authenticationService.login(credentials);
         if (currentUser == null) {
             consoleService.printErrorMessage();
-        }else
-            accountService.setCurrentUser(currentUser);
+        }
     }
 
     private void mainMenu() {
@@ -98,6 +97,7 @@ public class App {
     }
 
 	private void viewCurrentBalance() {
+        accountService.setCurrentUser(currentUser);
         System.out.println(accountService.getAccountBalance());
 	}
 
