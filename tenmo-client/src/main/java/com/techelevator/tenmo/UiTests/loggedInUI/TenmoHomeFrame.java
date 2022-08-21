@@ -15,6 +15,7 @@ public class TenmoHomeFrame extends JFrame {
     public TenmoHomeFrame(AuthenticatedUser user){
         this.user = user;
 
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setResizable(false);
         setTitle(TITLE);

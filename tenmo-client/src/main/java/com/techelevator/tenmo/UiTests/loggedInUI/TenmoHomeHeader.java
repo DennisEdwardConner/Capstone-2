@@ -25,6 +25,8 @@ public class TenmoHomeHeader extends JPanel {
         moneyController = new FlyingMoneyController();
         startRepaintThread();
 
+        FlyingMoneyController.flyTenmo(5);
+
         try {
             bgImg = ImageIO.read(new File("Resources/TenmoHomeHeader.jpg"));
         } catch (IOException e) {

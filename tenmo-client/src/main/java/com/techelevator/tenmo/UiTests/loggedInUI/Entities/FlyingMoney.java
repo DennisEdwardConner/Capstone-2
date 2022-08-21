@@ -1,20 +1,17 @@
 package com.techelevator.tenmo.UiTests.loggedInUI.Entities;
 
 import javax.imageio.ImageIO;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.nio.Buffer;
+import java.io.IOException;;
 
 public class FlyingMoney{
 
     private BufferedImage moneyImg;
 
-    private int x, y, degreesRotation;
+    private int x, y;
+    private int velocity;
     private boolean dead = false;
 
     public FlyingMoney(){
@@ -24,9 +21,10 @@ public class FlyingMoney{
             e.printStackTrace();
         }
 
+        velocity = 1;
+
         x = 165;
         y = 15;
-        degreesRotation = 0;
 
         startMovementUpdateThread();
     }
@@ -50,7 +48,7 @@ public class FlyingMoney{
                     int yDiff = (int) (yMovementCoeficient * 2);
 
                     y += yDiff;
-                    x++;
+                    x += velocity;
 
                     if(x >= 700) {
                         dead = true;

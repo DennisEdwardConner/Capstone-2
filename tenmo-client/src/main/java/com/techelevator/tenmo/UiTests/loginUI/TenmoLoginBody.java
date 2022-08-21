@@ -70,6 +70,9 @@ public class TenmoLoginBody extends JPanel implements ActionListener {
     private void setUpButtons() {
         final int BUTTON_WIDTH = 100;
         final int BUTTON_HEIGHT = 30;
+
+        //Allow pressing enter on buttons
+        UIManager.put("Button.defaultButtonFollowsFocus", Boolean.TRUE);
         //Set up login and register buttons
         loginButton = new MyButton("Login");
         loginButton.setBackground(bgColor.darker());
@@ -80,6 +83,7 @@ public class TenmoLoginBody extends JPanel implements ActionListener {
         loginButton.setName("login");
         loginButton.setBorderPainted(false);
         loginButton.setFocusPainted(false);
+        loginButton.setFocusable(true);
         loginButton.addActionListener(this);
         add(loginButton);
 
@@ -90,6 +94,7 @@ public class TenmoLoginBody extends JPanel implements ActionListener {
         registerButton.setFont(new Font(Font.SERIF, Font.BOLD, 20));
         registerButton.setBounds(285, 435, BUTTON_WIDTH + 30, BUTTON_HEIGHT);
         registerButton.setName("register");
+        registerButton.setFocusable(true);
         registerButton.setBorderPainted(false);
         registerButton.setFocusPainted(false);
         registerButton.addActionListener(this);
@@ -260,7 +265,9 @@ public class TenmoLoginBody extends JPanel implements ActionListener {
                     }
 
                     Color buttonColor = new Color(R, G, B);
-                    if (loginButton.getModel().isPressed()) {
+
+                    if (loginButton.getModel().isPressed() || loginButton.isFocusOwner()) {
+                        loginButton.getModel().setPressed(true);
                         rotateColor();
                         loginButton.setPressedBackgroundColor(buttonColor);
                         loginButton.setForeground(new Color(255 - R, 255 - G, 255 - B));
@@ -269,8 +276,9 @@ public class TenmoLoginBody extends JPanel implements ActionListener {
                         loginButton.setBackground(bgColor.darker());
                         loginButton.setForeground(Color.yellow.darker());
                     }
-                    if (registerButton.getModel().isPressed()) {
+                    if (registerButton.getModel().isPressed() || registerButton.isFocusOwner()) {
                         rotateColor();
+                        registerButton.getModel().setPressed(true);
                         registerButton.setPressedBackgroundColor(buttonColor);
                         registerButton.setForeground(new Color(255 - R, 255 - G, 255 - B));
                         registerButton.repaint();
@@ -312,6 +320,7 @@ public class TenmoLoginBody extends JPanel implements ActionListener {
             userCredentials.setUsername(registerUsernameField.getText());
             userCredentials.setPassword(registerPasswordField.getText());
             authenticationService.register(userCredentials);
+
         }
     }
 }
