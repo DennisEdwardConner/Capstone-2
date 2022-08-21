@@ -4,3 +4,5 @@
 2022-08-20T09:00:06.8495253 400 : [{"timestamp":"2022-08-20T14:00:06.819+00:00","status":400,"error":"Bad Request","message":"Validation failed for object='registerUserDTO'. Error count: 2","errors":[{"codes":["NotEmpty.registerUserDTO... (947 bytes)]
 2022-08-20T09:00:09.1681263 401 : [no body]
 2022-08-20T09:24:23.1806246 401 : [no body]
+2022-08-20T23:56:48.9283367 I/O error on POST request for "http://localhost:8080/login": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
+2022-08-20T23:57:01.6881376 I/O error on POST request for "http://localhost:8080/login": Connection refused: connect; nested exception is java.net.ConnectException: Connection refused: connect
