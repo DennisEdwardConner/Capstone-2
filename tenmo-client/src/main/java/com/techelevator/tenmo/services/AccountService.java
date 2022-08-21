@@ -4,6 +4,7 @@ import com.techelevator.tenmo.model.AuthenticatedUser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
@@ -20,6 +21,13 @@ public class AccountService {
 
     public void setCurrentUser(AuthenticatedUser currentUser){
         this.currentUser = currentUser;
+    }
+
+    public BigDecimal getAccountBalance(){
+        ResponseEntity<BigDecimal> response =
+                restTemplate.exchange(API_BASE_URL + "/api/" + currentUser.getUser().getId() + "/getbalance", HttpMethod.GET, makeAuthEntity(), BigDecimal.class);
+
+        return response.getBody();
     }
 
     private HttpEntity<Void> makeAuthEntity(){

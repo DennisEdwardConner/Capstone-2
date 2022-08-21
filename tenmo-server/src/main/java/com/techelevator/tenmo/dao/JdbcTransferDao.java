@@ -56,7 +56,6 @@ public class JdbcTransferDao implements TransferDao{
 //                "account_to" : "2002",
 //                "amount" : "50.00"
 //        }
-        Transfer createdTransfer = null;
         int transfer_type_id = transfer.getTransfer_type_id();
         int transfer_id = transfer.getTransfer_id();
         int transfer_status_id = transfer.getTransfer_status_id();

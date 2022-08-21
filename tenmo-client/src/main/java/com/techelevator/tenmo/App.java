@@ -98,7 +98,7 @@ public class App {
     }
 
 	private void viewCurrentBalance() {
-
+        System.out.println(accountService.getAccountBalance());
 	}
 
 	private void viewTransferHistory() {
