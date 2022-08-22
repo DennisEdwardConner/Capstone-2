@@ -44,8 +44,8 @@ public class FlyingMoney{
                         e.printStackTrace();
                     }
 
-                    double yMovementCoeficient = Math.sin(System.nanoTime()/100_000_000);
-                    int yDiff = (int) (yMovementCoeficient * 2);
+                    double yMovementCoeficient = Math.sin(System.nanoTime()/100_000_000.0);
+                    int yDiff = (int) (yMovementCoeficient * 1.5);
 
                     y += yDiff;
                     x += velocity;

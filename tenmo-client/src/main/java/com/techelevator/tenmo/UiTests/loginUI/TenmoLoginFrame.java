@@ -11,6 +11,7 @@ public class TenmoLoginFrame extends JFrame{
     private final int WIDTH = 700;
     private final int HEIGHT = 600;
     private final String TITLE = "TEnmo";
+
     private TenmoLoginPanel loginPanel;
     private AuthenticatedUser user;
 

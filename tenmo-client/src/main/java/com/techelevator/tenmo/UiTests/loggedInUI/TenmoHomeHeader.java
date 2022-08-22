@@ -20,7 +20,6 @@ public class TenmoHomeHeader extends JPanel {
 
     public TenmoHomeHeader() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        setBackground(Color.GREEN);
 
         moneyController = new FlyingMoneyController();
         startRepaintThread();

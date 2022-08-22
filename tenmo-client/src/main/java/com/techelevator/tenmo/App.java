@@ -42,11 +42,7 @@ public class App {
             } else if (menuSelection == 2) {
                 handleLogin();
             } else if (menuSelection == 3) {
-                TenmoLoginFrame tenmoApp = new TenmoLoginFrame(authenticationService);
-
-                //Need to remove after complete
-            } else if (menuSelection == 4) {
-                TenmoHomeFrame tenmoHome = new TenmoHomeFrame(currentUser);
+                new TenmoLoginFrame(authenticationService);
             } else if (menuSelection != 0) {
                 System.out.println("Invalid Selection");
                 consoleService.pause();

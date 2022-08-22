@@ -12,6 +12,8 @@ public class TenmoHomeFrame extends JFrame {
 
     private AuthenticatedUser user;
 
+    private TenmoHomePane homePane;
+
     public TenmoHomeFrame(AuthenticatedUser user){
         this.user = user;
 
@@ -20,12 +22,11 @@ public class TenmoHomeFrame extends JFrame {
         setResizable(false);
         setTitle(TITLE);
 
-        TenmoHomePane homePane = new TenmoHomePane(user);
+        homePane = new TenmoHomePane(user);
         add(homePane);
 
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
-        repaint();
     }
 }
