@@ -23,18 +23,22 @@ public class AccountController {
     public BigDecimal getBalance(@PathVariable int id){
         return accountDao.getBalance(id);
     }
+
     @RequestMapping(value = "api/account/findAll/{id}", method = RequestMethod.GET)
     List<Account> findAllByUserId(@PathVariable int id){
         return accountDao.findAllByUserId(id);
     }
+
     @RequestMapping(value = "api/account/user_id/{user_id}", method = RequestMethod.GET)
     Account findByUserId(@PathVariable int user_id){
         return accountDao.findByUserId(user_id);
     }
+
     @RequestMapping(value = "api/account/account_id/{account_id}")
     Account findByAccountId(@PathVariable int account_id){
         return accountDao.findByAccountId(account_id);
     }
+    
     @RequestMapping(value = "api/account/{account_id}")
     Account update(@RequestBody Account account, @PathVariable int account_id){
         Account updatedAccount = new Account();

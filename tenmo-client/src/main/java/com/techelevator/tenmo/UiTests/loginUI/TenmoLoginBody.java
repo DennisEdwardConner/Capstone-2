@@ -24,6 +24,8 @@ public class TenmoLoginBody extends JPanel implements ActionListener {
 
     private JTextField usernameField, registerUsernameField;
     private JPasswordField passwordField, registerPasswordField;
+    private boolean loginFailed = false;
+    private boolean registerFailed = false;
 
     private MyButton loginButton, registerButton;
     private JFrame masterFrame;
@@ -65,6 +67,18 @@ public class TenmoLoginBody extends JPanel implements ActionListener {
         g2D.setColor(Color.BLACK);
         g2D.setStroke(new BasicStroke(5));
         g2D.drawLine(0, 0, 700, 0);
+
+        //Draw login failed text
+        g2D.setColor(new Color(135, 0, 30));
+        if(loginFailed) {
+            g2D.setFont(new Font(null, Font.PLAIN, 15));
+            g2D.drawString("Username or Password is incorrect", 230, 170);
+        }
+
+        //Draw register failed text
+        if(registerFailed)
+            g2D.drawString("Username is already taken", 265, 430);
+
     }
 
     private void setUpButtons() {
@@ -79,7 +93,7 @@ public class TenmoLoginBody extends JPanel implements ActionListener {
         loginButton.setForeground(Color.yellow.darker());
         loginButton.setHoverBackgroundColor(bgColor.darker());
         loginButton.setFont(new Font(Font.SERIF, Font.BOLD, 20));
-        loginButton.setBounds(300, 165, BUTTON_WIDTH, BUTTON_HEIGHT);
+        loginButton.setBounds(300, 180, BUTTON_WIDTH, BUTTON_HEIGHT);
         loginButton.setName("login");
         loginButton.setBorderPainted(false);
         loginButton.setFocusPainted(false);
@@ -92,7 +106,7 @@ public class TenmoLoginBody extends JPanel implements ActionListener {
         registerButton.setForeground(Color.yellow.darker());
         registerButton.setHoverBackgroundColor(bgColor.darker());
         registerButton.setFont(new Font(Font.SERIF, Font.BOLD, 20));
-        registerButton.setBounds(285, 435, BUTTON_WIDTH + 30, BUTTON_HEIGHT);
+        registerButton.setBounds(285, 445, BUTTON_WIDTH + 30, BUTTON_HEIGHT);
         registerButton.setName("register");
         registerButton.setFocusable(true);
         registerButton.setBorderPainted(false);
@@ -313,14 +327,26 @@ public class TenmoLoginBody extends JPanel implements ActionListener {
                 //kill login frame
                 masterFrame.removeAll();
                 masterFrame.setVisible(false);
+                loginFailed = false;
+            }else{
+                loginFailed = true;
+                repaint();
             }
         } else if(clickedButton.getName().equals("register")) {
 
             UserCredentials userCredentials = new UserCredentials("", "");
             userCredentials.setUsername(registerUsernameField.getText());
             userCredentials.setPassword(registerPasswordField.getText());
-            authenticationService.register(userCredentials);
+
+            if(authenticationService.register(userCredentials)) {
+                registerFailed = false;
+                repaint();
+            }else{
+                registerFailed = true;
+                repaint();
+            }
 
         }
     }
+
 }
