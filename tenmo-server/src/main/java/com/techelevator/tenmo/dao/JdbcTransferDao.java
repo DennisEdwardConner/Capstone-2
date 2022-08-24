@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Transfer;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -37,13 +38,27 @@ public class JdbcTransferDao implements TransferDao{
     }
 
     @Override
-    public List<Transfer> getAllSuccessfulTransfers() {
-        return null;
+    public List<Transfer> getAllTransfers() {
+        List <Transfer> transfers = new ArrayList<>();
+        String sql = "SELECT * " +
+                "FROM transfer";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while(results.next()){
+            transfers.add(mapRowToTransfer(results));
+        }
+        return transfers;
     }
 
     @Override
-    public Transfer getTransferById() {
-        return null;
+    public Transfer getTransferById(int id) {
+        Transfer transfer = null;
+        String sql = "SELECT *" +
+                "FROM transfer" +
+                "WHERE transfer_id = ILIKE '?' ";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+        if(results.next())
+            transfer = mapRowToTransfer(results);
+        return transfer;
     }
 
     @Override
@@ -70,10 +85,17 @@ public class JdbcTransferDao implements TransferDao{
 
         return transfer;
     }
-
+    //TODO double check this method
     @Override
-    public Transfer updateTransferStatus() {
-        return null;
+    public boolean updateTransferStatus(Transfer transfer) {
+        String sql = "UPDATE transfer SET transfer_status_id = ?" +
+                "WHERE transfer_id = ?";
+        try {
+            jdbcTemplate.queryForRowSet(sql,transfer.getTransfer_status_id(), transfer.getTransfer_id());
+        } catch (DataAccessException e) {
+            return false;
+        }
+        return true;
     }
 
     private Transfer mapRowToTransfer(SqlRowSet rowSet){
