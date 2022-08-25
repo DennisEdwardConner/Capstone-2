@@ -38,7 +38,7 @@ public class AccountController {
     Account findByAccountId(@PathVariable int account_id){
         return accountDao.findByAccountId(account_id);
     }
-    
+
     @RequestMapping(value = "api/account/{account_id}")
     Account update(@RequestBody Account account, @PathVariable int account_id){
         Account updatedAccount = new Account();

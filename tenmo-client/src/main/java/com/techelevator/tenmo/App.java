@@ -18,8 +18,10 @@ public class App {
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
     private final AccountService accountService = new AccountService(API_BASE_URL);
+    private final TransferService transferService = new TransferService(API_BASE_URL);
+
     private AuthenticatedUser currentUser;
-    private final TransferService transferService = new TransferService(API_BASE_URL, currentUser);
+
     public static void main(String[] args) {
         App app = new App();
         app.run();
@@ -107,7 +109,8 @@ public class App {
 
 	private void viewPendingRequests() {
 		// TODO Auto-generated method stub
-		
+		transferService.setCurrentUser(currentUser);
+        System.out.println(transferService.getAllPendingTransfers());
 	}
 
 	private void sendBucks() {

@@ -76,9 +76,10 @@ public class TenmoLoginBody extends JPanel implements ActionListener {
         }
 
         //Draw register failed text
-        if(registerFailed)
-            g2D.drawString("Username is already taken", 265, 430);
-
+        if(registerFailed) {
+            g2D.setFont(new Font(null, Font.PLAIN, 15));
+            g2D.drawString("Username is already taken", 260, 440);
+        }
     }
 
     private void setUpButtons() {
@@ -106,7 +107,7 @@ public class TenmoLoginBody extends JPanel implements ActionListener {
         registerButton.setForeground(Color.yellow.darker());
         registerButton.setHoverBackgroundColor(bgColor.darker());
         registerButton.setFont(new Font(Font.SERIF, Font.BOLD, 20));
-        registerButton.setBounds(285, 445, BUTTON_WIDTH + 30, BUTTON_HEIGHT);
+        registerButton.setBounds(285, 450, BUTTON_WIDTH + 30, BUTTON_HEIGHT);
         registerButton.setName("register");
         registerButton.setFocusable(true);
         registerButton.setBorderPainted(false);
