@@ -111,7 +111,7 @@ public class App {
 		transferService.setCurrentUser(currentUser);
         Transfer[] pendingTransfers = transferService.getAllPendingTransfers();
 
-        consoleService.printPendingTransfers(pendingTransfers);
+        consoleService.printAllPendingTransfers(pendingTransfers);
 	}
 
 	private void sendBucks() {

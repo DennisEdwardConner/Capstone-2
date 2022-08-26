@@ -90,13 +90,31 @@ public class ConsoleService {
         System.out.println("An error occurred. Check the log for details.");
     }
 
-    public void printPendingTransfers(Transfer[] transfers){
+    public void printPendingTransfer(Transfer transfer){
+        System.out.printf("TRANSFER ID:%5d\n", transfer.getTransfer_id());
+        System.out.printf("TRANSFER TYPE:%5s\n", transfer.getTransfer_type());
+
+        if(transfer.getTransfer_type().equals("Request"))
+            System.out.printf("FROM ACCOUNT:%5d\n", transfer.getAccount_from());
+
+        System.out.printf("AMOUNT:%5d\n", transfer.getAmount().toBigInteger());
+        System.out.printf("STATUS:%5s\n", transfer.getTransfer_status());
+    }
+
+    public void printAllPendingTransfers(Transfer[] transfers){
+        System.out.printf("<------------PENDING TRANSFERS---------->\n");
+        System.out.printf(" %2s%13s%14s\n", "ID", "To", "AMOUNT");
+        System.out.printf("=========================================\n");
+
+
         for(Transfer transfer : transfers){
-            System.out.println("TRANSFER ID: " + transfer.getTransfer_id());
-            System.out.println("TRANSFER TYPE: " +transfer.getTransfer_type());
-            System.out.println("FROM ACCOUNT: " + transfer.getAccount_from());
-            System.out.println("AMOUNT: " + transfer.getAmount());
-            System.out.println("STATUS: " + transfer.getTransfer_status());
+            if(transfer.getTransfer_type().equals("Request")) {
+                System.out.printf(" %-4d", transfer.getTransfer_id());
+                System.out.printf("%9s", "");
+                System.out.printf("%-10s", transfer.getAccount_to());
+                System.out.printf("$%-12.2f", transfer.getAmount().doubleValue());
+                System.out.println();
+            }
         }
     }
 }

@@ -25,8 +25,9 @@ public class JdbcTransferDao implements TransferDao{
 
         String sql = "SELECT transfer_id, transfer.transfer_type_id, transfer.transfer_status_id, account_from, account_to, amount, transfer_type_desc, transfer_status_desc " +
                      "FROM transfer JOIN transfer_status ON transfer.transfer_status_id = transfer_status.transfer_status_id " +
-                     "JOIN account ON transfer.account_to = account.account_id " +
+                     "JOIN account ON account.account_id = transfer.account_to OR account.account_id = transfer.account_from " +
                      "JOIN transfer_type ON transfer.transfer_type_id = transfer_type.transfer_type_id " +
+                     "JOIN tenmo_user ON account.user_id = tenmo_user.user_id " +
                      "WHERE transfer_status_desc LIKE 'Pending' " +
                      "AND account.user_id = ?;";
 
