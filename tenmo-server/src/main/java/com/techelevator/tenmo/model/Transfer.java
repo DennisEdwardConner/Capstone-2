@@ -9,9 +9,27 @@ public class Transfer {
     private int account_from;
     private int account_to;
     private BigDecimal amount;
+    private String transfer_type;
+    private String transfer_status;
 
     public Transfer(){
 
+    }
+
+    public String getTransfer_type() {
+        return transfer_type;
+    }
+
+    public void setTransfer_type(String transfer_type) {
+        this.transfer_type = transfer_type;
+    }
+
+    public String getTransfer_status() {
+        return transfer_status;
+    }
+
+    public void setTransfer_status(String transfer_status) {
+        this.transfer_status = transfer_status;
     }
 
     public int getTransfer_id() {

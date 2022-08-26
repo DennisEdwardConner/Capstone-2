@@ -23,9 +23,10 @@ public class JdbcTransferDao implements TransferDao{
     public List<Transfer> getAllPendingTransfers(int userId) {
         List<Transfer> pendingTransferList = new ArrayList<>();
 
-        String sql = "SELECT transfer_id, transfer_type_id, transfer.transfer_status_id, account_from, account_to, amount " +
+        String sql = "SELECT transfer_id, transfer.transfer_type_id, transfer.transfer_status_id, account_from, account_to, amount, transfer_type_desc, transfer_status_desc " +
                      "FROM transfer JOIN transfer_status ON transfer.transfer_status_id = transfer_status.transfer_status_id " +
                      "JOIN account ON transfer.account_to = account.account_id " +
+                     "JOIN transfer_type ON transfer.transfer_type_id = transfer_type.transfer_type_id " +
                      "WHERE transfer_status_desc LIKE 'Pending' " +
                      "AND account.user_id = ?;";
 
@@ -105,6 +106,8 @@ public class JdbcTransferDao implements TransferDao{
         transfer.setTransfer_id(rowSet.getInt("transfer_id"));
         transfer.setTransfer_type_id(rowSet.getInt("transfer_type_id"));
         transfer.setTransfer_status_id(rowSet.getInt("transfer_status_id"));
+        transfer.setTransfer_type(rowSet.getString("transfer_type_desc"));
+        transfer.setTransfer_status(rowSet.getString("transfer_status_desc"));
         transfer.setAccount_from(rowSet.getInt("account_from"));
         transfer.setAccount_to(rowSet.getInt("account_to"));
         transfer.setAmount(rowSet.getBigDecimal("amount"));

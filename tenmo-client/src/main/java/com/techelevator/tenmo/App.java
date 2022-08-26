@@ -1,15 +1,15 @@
 package com.techelevator.tenmo;
 
-import com.techelevator.tenmo.UiTests.loggedInUI.TenmoHomeFrame;
 import com.techelevator.tenmo.UiTests.loginUI.TenmoLoginFrame;
 import com.techelevator.tenmo.model.AuthenticatedUser;
+import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 import com.techelevator.tenmo.services.TransferService;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
+
+import java.util.List;
 
 public class App {
 
@@ -108,9 +108,9 @@ public class App {
 	}
 
 	private void viewPendingRequests() {
-		// TODO Auto-generated method stub
 		transferService.setCurrentUser(currentUser);
-        System.out.println(transferService.getAllPendingTransfers());
+        List<Transfer> pendingTransfers = transferService.getAllPendingTransfers();
+        System.out.println(pendingTransfers.get(0).getTransfer_type_id());
 	}
 
 	private void sendBucks() {
