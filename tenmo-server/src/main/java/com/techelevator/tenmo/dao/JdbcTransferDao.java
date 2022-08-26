@@ -23,13 +23,17 @@ public class JdbcTransferDao implements TransferDao{
     public List<Transfer> getAllPendingTransfers(int userId) {
         List<Transfer> pendingTransferList = new ArrayList<>();
 
-        String sql = "SELECT transfer_id, transfer.transfer_type_id, transfer.transfer_status_id, account_from, account_to, amount, transfer_type_desc, transfer_status_desc " +
-                     "FROM transfer JOIN transfer_status ON transfer.transfer_status_id = transfer_status.transfer_status_id " +
-                     "JOIN account ON account.account_id = transfer.account_to OR account.account_id = transfer.account_from " +
+        String sql = "SELECT transfer_id, user_from.username AS user_from, user_to.username AS user_to, acc_to.user_id, transfer_status_desc, transfer_type_desc, account_from, account_to, amount, transfer.transfer_type_id, transfer.transfer_status_id " +
+                     "FROM transfer " +
+                     "JOIN transfer_status ON transfer.transfer_status_id = transfer_status.transfer_status_id " +
                      "JOIN transfer_type ON transfer.transfer_type_id = transfer_type.transfer_type_id " +
-                     "JOIN tenmo_user ON account.user_id = tenmo_user.user_id " +
-                     "WHERE transfer_status_desc LIKE 'Pending' " +
-                     "AND account.user_id = ?;";
+                     "JOIN account AS acc_to ON transfer.account_to = acc_to.account_id " +
+                     "JOIN account AS acc_from ON transfer.account_from = acc_from.account_id " +
+                     "JOIN tenmo_user AS user_to ON user_to.user_id = acc_to.user_id " +
+                     "JOIN tenmo_user AS user_from ON acc_from.user_id = user_from.user_id " +
+                     "WHERE transfer_status_desc = 'Pending' " +
+                     "AND transfer_type_desc = 'Request' " +
+                     "AND acc_from.user_id = ?;";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
 
@@ -111,6 +115,8 @@ public class JdbcTransferDao implements TransferDao{
         transfer.setTransfer_status(rowSet.getString("transfer_status_desc"));
         transfer.setAccount_from(rowSet.getInt("account_from"));
         transfer.setAccount_to(rowSet.getInt("account_to"));
+        transfer.setUsername_from(rowSet.getString("user_from"));
+        transfer.setUsername_to(rowSet.getString("user_to"));
         transfer.setAmount(rowSet.getBigDecimal("amount"));
 
         return transfer;

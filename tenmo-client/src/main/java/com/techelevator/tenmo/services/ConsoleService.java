@@ -103,7 +103,7 @@ public class ConsoleService {
 
     public void printAllPendingTransfers(Transfer[] transfers){
         System.out.printf("<------------PENDING TRANSFERS---------->\n");
-        System.out.printf(" %2s%13s%14s\n", "ID", "To", "AMOUNT");
+        System.out.printf(" %2s%13s%15s\n", "ID", "To", "AMOUNT");
         System.out.printf("=========================================\n");
 
 
@@ -111,8 +111,8 @@ public class ConsoleService {
             if(transfer.getTransfer_type().equals("Request")) {
                 System.out.printf(" %-4d", transfer.getTransfer_id());
                 System.out.printf("%9s", "");
-                System.out.printf("%-10s", transfer.getAccount_to());
-                System.out.printf("$%-12.2f", transfer.getAmount().doubleValue());
+                System.out.printf("%-10s", transfer.getUsername_to());
+                System.out.printf("$%-14.2f", transfer.getAmount().doubleValue());
                 System.out.println();
             }
         }

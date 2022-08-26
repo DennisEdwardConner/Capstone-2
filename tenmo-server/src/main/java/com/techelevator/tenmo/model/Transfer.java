@@ -11,20 +11,28 @@ public class Transfer {
     private BigDecimal amount;
     private String transfer_type;
     private String transfer_status;
-//    private String account_from;
-//    private String account_to;
+    private String username_from;
+    private String username_to;
 
     public Transfer(){
 
     }
 
-//    public void setAccount_from(String account_from) {
-//        this.account_from = account_from;
-//    }
-//
-//    public void setAccount_to(String account_to) {
-//        this.account_to = account_to;
-//    }
+    public String getUsername_from() {
+        return username_from;
+    }
+
+    public void setUsername_from(String username_from) {
+        this.username_from = username_from;
+    }
+
+    public String getUsername_to() {
+        return username_to;
+    }
+
+    public void setUsername_to(String username_to) {
+        this.username_to = username_to;
+    }
 
     public String getTransfer_type() {
         return transfer_type;
