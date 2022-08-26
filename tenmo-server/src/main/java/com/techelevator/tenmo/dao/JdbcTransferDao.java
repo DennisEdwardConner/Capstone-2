@@ -45,11 +45,14 @@ public class JdbcTransferDao implements TransferDao{
     }
 
     @Override
-    public List<Transfer> getAllTransfers() {
+    public List<Transfer> getPreviousTransfers(int id) {
         List <Transfer> transfers = new ArrayList<>();
-        String sql = "SELECT * " +
-                "FROM transfer";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        String sql = "SELECT transfer_id, transfer_type_id, transfer_status,  transfer_status_id, account_from, account_to, amount " +
+                "FROM transfer" + "join account a on a.account_id = transfer.account_to "
+                + "OR account a.account_id = transfer.account_from" +
+                "join transfer_status ts on ts.transfer_status_id = transfer.transfer_status_id "
+                + "where transfer_status = 'accepted' " + "AND a.user_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
         while(results.next()){
             transfers.add(mapRowToTransfer(results));
         }
@@ -61,7 +64,7 @@ public class JdbcTransferDao implements TransferDao{
         Transfer transfer = null;
         String sql = "SELECT *" +
                 "FROM transfer" +
-                "WHERE transfer_id = ILIKE '?' ";
+                "WHERE transfer_id = ? ";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
         if(results.next())
             transfer = mapRowToTransfer(results);
@@ -79,26 +82,28 @@ public class JdbcTransferDao implements TransferDao{
 //                "amount" : "50.00"
 //        }
         int transfer_type_id = transfer.getTransfer_type_id();
-        int transfer_id = transfer.getTransfer_id();
+//        int transfer_id = transfer.getTransfer_id();
         int transfer_status_id = transfer.getTransfer_status_id();
         int account_from = transfer.getAccount_from();
         int account_to = transfer.getAccount_to();
         BigDecimal amount = transfer.getAmount();
 
-        String sql = "INSERT INTO transfer(transfer_type_id, transfer_id, transfer_status_id, account_from, account_to, amount) " +
-                     "VALUES (?, ?, ?, ?, ?, ?);";
-
-        jdbcTemplate.update(sql, transfer_type_id, transfer_id, transfer_status_id, account_from, account_to, amount);
-
+        String sql = "INSERT INTO transfer(transfer_type_id, transfer_status_id, account_from, account_to, amount) " +
+                     "VALUES (?, ?, ?, ?, ?);";
+        try {
+            jdbcTemplate.update(sql, transfer_type_id, transfer_status_id, account_from, account_to, amount);
+        } catch(DataAccessException e) {
+            return null;
+        }
         return transfer;
     }
     //TODO double check this method
     @Override
-    public boolean updateTransferStatus(Transfer transfer) {
+    public boolean updateTransferStatus(Transfer transfer, int id) {
         String sql = "UPDATE transfer SET transfer_status_id = ? " +
                      "WHERE transfer_id = ?;";
         try {
-            jdbcTemplate.queryForRowSet(sql,transfer.getTransfer_status_id(), transfer.getTransfer_id());
+            jdbcTemplate.queryForRowSet(sql,transfer.getTransfer_status_id(), id);
         } catch (DataAccessException e) {
             return false;
         }

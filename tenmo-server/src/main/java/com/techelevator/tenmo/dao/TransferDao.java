@@ -8,11 +8,11 @@ public interface TransferDao {
 
     List<Transfer> getAllPendingTransfers(int accountFrom);
 
-    List<Transfer> getAllTransfers();
+    List<Transfer> getPreviousTransfers(int id);
 
     Transfer getTransferById(int id);
 
     Transfer createTransferRequest(Transfer transfer);
 
-    boolean updateTransferStatus(Transfer transfer);
+    boolean updateTransferStatus(Transfer transfer, int id);
 }
