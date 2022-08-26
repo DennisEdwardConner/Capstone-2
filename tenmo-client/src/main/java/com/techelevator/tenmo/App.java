@@ -109,8 +109,9 @@ public class App {
 
 	private void viewPendingRequests() {
 		transferService.setCurrentUser(currentUser);
-        List<Transfer> pendingTransfers = transferService.getAllPendingTransfers();
-        System.out.println(pendingTransfers.get(0).getTransfer_type_id());
+        Transfer[] pendingTransfers = transferService.getAllPendingTransfers();
+
+        consoleService.printPendingTransfers(pendingTransfers);
 	}
 
 	private void sendBucks() {

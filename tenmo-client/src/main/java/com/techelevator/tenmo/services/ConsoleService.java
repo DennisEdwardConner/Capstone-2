@@ -90,5 +90,13 @@ public class ConsoleService {
         System.out.println("An error occurred. Check the log for details.");
     }
 
-
+    public void printPendingTransfers(Transfer[] transfers){
+        for(Transfer transfer : transfers){
+            System.out.println("TRANSFER ID: " + transfer.getTransfer_id());
+            System.out.println("TRANSFER TYPE: " +transfer.getTransfer_type());
+            System.out.println("FROM ACCOUNT: " + transfer.getAccount_from());
+            System.out.println("AMOUNT: " + transfer.getAmount());
+            System.out.println("STATUS: " + transfer.getTransfer_status());
+        }
+    }
 }

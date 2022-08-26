@@ -22,8 +22,8 @@ public class TransferService {
     }
 
 
-    public List<Transfer> getAllPendingTransfers(){
-        ResponseEntity<List> response = restTemplate.exchange(API_BASE_URL + currentUser.getUser().getId() + "/transfer/pending", HttpMethod.GET, makeAuthEntity(), List.class);
+    public Transfer[] getAllPendingTransfers(){
+        ResponseEntity<Transfer[]> response = restTemplate.exchange(API_BASE_URL + currentUser.getUser().getId() + "/transfer/pending", HttpMethod.GET, makeAuthEntity(), Transfer[].class);
 
         return response.getBody();
     }
