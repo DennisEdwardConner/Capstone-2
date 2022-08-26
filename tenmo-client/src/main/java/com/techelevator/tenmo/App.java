@@ -9,6 +9,7 @@ import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 import com.techelevator.tenmo.services.TransferService;
 
+import javax.swing.*;
 import java.util.List;
 
 public class App {
@@ -111,7 +112,12 @@ public class App {
 		transferService.setCurrentUser(currentUser);
         Transfer[] pendingTransfers = transferService.getAllPendingTransfers();
 
-        int selectedTransferId = consoleService.promptAllPendingTransfers(pendingTransfers);
+        if(pendingTransfers != null) {
+            int selectedTransferId = consoleService.promptAllPendingTransfers(pendingTransfers);
+            
+        } else{
+            consoleService.printErrorMessage();
+        }
 	}
 
 	private void sendBucks() {
