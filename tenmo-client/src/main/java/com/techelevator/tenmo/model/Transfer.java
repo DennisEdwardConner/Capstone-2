@@ -6,8 +6,8 @@ public class Transfer {
     private int transfer_id;
     private int transfer_type_id;
     private int transfer_status_id;
-    private int account_from;
-    private int account_to;
+    private long account_from;
+    private long account_to;
     private String username_from;
     private String username_to;
     private BigDecimal amount;
@@ -34,7 +34,7 @@ public class Transfer {
         this.username_to = username_to;
     }
 
-    public int getAccount_from() {
+    public long getAccount_from() {
         return account_from;
     }
 
@@ -42,7 +42,7 @@ public class Transfer {
         this.account_from = account_from_id;
     }
 
-    public int getAccount_to() {
+    public long getAccount_to() {
         return account_to;
     }
 

@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.services;
 
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -34,5 +35,11 @@ public class AccountService {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(currentUser.getToken());
         return new HttpEntity<>(headers);
+    }
+    public Account getByUserId(long userId){
+        ResponseEntity<Account> response =
+                restTemplate.exchange(API_BASE_URL + "account/findById/" + userId,
+                        HttpMethod.GET, makeAuthEntity(), Account.class);
+        return response.getBody();
     }
 }

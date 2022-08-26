@@ -15,4 +15,6 @@ public interface TransferDao {
     Transfer createTransferRequest(Transfer transfer);
 
     boolean updateTransferStatus(Transfer transfer, int id);
+    boolean sendTEBucks(Transfer transfer);
+
 }

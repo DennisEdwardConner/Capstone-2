@@ -41,5 +41,8 @@ public class TransferController {
     public boolean updateTransferStatus(@RequestBody Transfer transfer, @PathVariable int transfer_id ){
         return transferDao.updateTransferStatus(transfer, transfer_id);
     }
-    
+    @RequestMapping(value = "transfer/send", method = RequestMethod.PUT)
+    public boolean sendTEBucks(@RequestBody Transfer transfer) {
+        return transferDao.sendTEBucks(transfer);
+    }
 }

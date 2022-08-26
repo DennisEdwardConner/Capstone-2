@@ -1,11 +1,11 @@
 package com.techelevator.tenmo.services;
 
 
+import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
-
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleService {
@@ -111,5 +111,30 @@ public class ConsoleService {
 
         return promptForMenuSelection("       Please choose an ID: ");
     }
+public void displayUsers(User[] users){
+        int number = 1;
+    for (User user: users
+         ) {
+  System.out.println(user.getId() + ": " + user.getUsername() + "   ");
+        }
+    }
+    public void displayPastTransfer(Transfer[] transfers, int currentAccId) {
+        System.out.printf("<------------TRANSFER  HISTORY---------->\n");
+        System.out.printf(" %2s%13s%15s\n", "ID", "From/To", "AMOUNT");
+        System.out.printf("=========================================\n");
 
+
+        for (Transfer transfer : transfers) {
+            System.out.printf(" %-4d", transfer.getTransfer_id());
+            System.out.printf("%9s", "");
+            if(currentAccId == transfer.getAccount_to()){
+                System.out.printf("%-11s", "From : " + transfer.getUsername_from());
+            }
+            else{
+                System.out.printf("%-11s", "To : " + transfer.getUsername_to());
+            }
+            System.out.printf("$%-15.2f", transfer.getAmount().doubleValue());
+            System.out.println("\n=========================================\n");
+        }
+    }
 }

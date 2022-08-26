@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Transfer;
+import org.jboss.logging.BasicLogger;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -23,7 +24,9 @@ public class JdbcTransferDao implements TransferDao{
     public List<Transfer> getAllPendingTransfers(int userId) {
         List<Transfer> pendingTransferList = new ArrayList<>();
 
-        String sql = "SELECT transfer_id, user_from.username AS user_from, user_to.username AS user_to, acc_to.user_id, transfer_status_desc, transfer_type_desc, account_from, account_to, amount, transfer.transfer_type_id, transfer.transfer_status_id " +
+        String sql = "SELECT transfer_id, user_from.username AS user_from, user_to.username AS user_to, acc_to.user_id, " +
+                        "transfer_status_desc, transfer_type_desc, account_from, account_to, amount, transfer.transfer_type_id, " +
+                        "transfer.transfer_status_id " +
                      "FROM transfer " +
                      "JOIN transfer_status ON transfer.transfer_status_id = transfer_status.transfer_status_id " +
                      "JOIN transfer_type ON transfer.transfer_type_id = transfer_type.transfer_type_id " +
@@ -47,12 +50,20 @@ public class JdbcTransferDao implements TransferDao{
     @Override
     public List<Transfer> getPreviousTransfers(int id) {
         List <Transfer> transfers = new ArrayList<>();
-        String sql = "SELECT transfer_id, transfer_type_id, transfer_status,  transfer_status_id, account_from, account_to, amount " +
-                "FROM transfer" + "join account a on a.account_id = transfer.account_to "
-                + "OR account a.account_id = transfer.account_from" +
-                "join transfer_status ts on ts.transfer_status_id = transfer.transfer_status_id "
-                + "where transfer_status = 'accepted' " + "AND a.user_id = ?;";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id);
+        String sql = "SELECT transfer_id, user_from.username AS user_from, user_to.username AS user_to, acc_to.user_id, " +
+                "transfer_status_desc, transfer_type_desc, account_from, account_to, amount, transfer.transfer_type_id, " +
+                "transfer.transfer_status_id " +
+                "FROM transfer " +
+                "JOIN transfer_status ON transfer.transfer_status_id = transfer_status.transfer_status_id " +
+                "JOIN transfer_type ON transfer.transfer_type_id = transfer_type.transfer_type_id " +
+                "JOIN account AS acc_to ON transfer.account_to = acc_to.account_id " +
+                "JOIN account AS acc_from ON transfer.account_from = acc_from.account_id " +
+                "JOIN tenmo_user AS user_to ON user_to.user_id = acc_to.user_id " +
+                "JOIN tenmo_user AS user_from ON acc_from.user_id = user_from.user_id " +
+                "WHERE transfer_status_desc = 'Approved' " +
+                "AND acc_from.user_id = ? " +
+                "OR acc_to.user_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id, id);
         while(results.next()){
             transfers.add(mapRowToTransfer(results));
         }
@@ -125,5 +136,26 @@ public class JdbcTransferDao implements TransferDao{
         transfer.setAmount(rowSet.getBigDecimal("amount"));
 
         return transfer;
+    }
+    @Override
+    public boolean sendTEBucks(Transfer transfer){
+        String sql = "BEGIN TRANSACTION; " +
+                "INSERT INTO transfer (account_from, account_to, transfer_status_id, transfer_type_id, amount) " +
+                "VAlUES (?, ?, ?, ?, ?); " +
+                "UPDATE account SET balance = (balance - ?) " +
+                "WHERE account_id = ?; " +
+                "UPDATE account SET balance = (balance + ?) " +
+                "WHERE account_id = ?; " +
+                "COMMIT TRANSACTION;";
+        boolean success = false;
+        try {
+            jdbcTemplate.update(sql, transfer.getAccount_from(), transfer.getAccount_to(),
+                    transfer.getTransfer_status_id(), transfer.getTransfer_type_id(), transfer.getAmount(),
+                    transfer.getAmount(), transfer.getAccount_from(), transfer.getAmount(), transfer.getAccount_to());
+            success = true;
+        }catch (DataAccessException e){
+            success = false;
+        }
+        return success;
     }
 }

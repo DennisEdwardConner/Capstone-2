@@ -29,17 +29,17 @@ public class AccountController {
         return accountDao.findAllByUserId(id);
     }
 
-    @RequestMapping(value = "api/account/user_id/{user_id}", method = RequestMethod.GET)
+    @RequestMapping(value = "account/findById/{user_id}", method = RequestMethod.GET)
     Account findByUserId(@PathVariable int user_id){
         return accountDao.findByUserId(user_id);
     }
 
-    @RequestMapping(value = "api/account/account_id/{account_id}")
+    @RequestMapping(value = "api/account/account_id/{account_id}", method = RequestMethod.GET)
     Account findByAccountId(@PathVariable int account_id){
         return accountDao.findByAccountId(account_id);
     }
 
-    @RequestMapping(value = "api/account/{account_id}")
+    @RequestMapping(value = "api/account/{account_id}", method = RequestMethod.PUT)
     Account update(@RequestBody Account account, @PathVariable int account_id){
         Account updatedAccount = new Account();
         updatedAccount.setId(account_id);
