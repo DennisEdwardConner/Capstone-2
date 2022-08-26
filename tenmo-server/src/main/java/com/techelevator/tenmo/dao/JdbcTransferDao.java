@@ -95,8 +95,8 @@ public class JdbcTransferDao implements TransferDao{
     //TODO double check this method
     @Override
     public boolean updateTransferStatus(Transfer transfer) {
-        String sql = "UPDATE transfer SET transfer_status_id = ?" +
-                "WHERE transfer_id = ?";
+        String sql = "UPDATE transfer SET transfer_status_id = ? " +
+                     "WHERE transfer_id = ?;";
         try {
             jdbcTemplate.queryForRowSet(sql,transfer.getTransfer_status_id(), transfer.getTransfer_id());
         } catch (DataAccessException e) {
