@@ -90,6 +90,11 @@ public class ConsoleService {
         System.out.println("An error occurred. Check the log for details.");
     }
 
+    public void printCurrentBalance(BigDecimal balance){
+        System.out.println();
+        System.out.println("Your current balance is: $" + balance);
+    }
+
     public int promptAllPendingTransfers(Transfer[] transfers){
         System.out.printf("<------------PENDING TRANSFERS---------->\n");
         System.out.printf(" %2s%13s%15s\n", "ID", "To", "AMOUNT");
@@ -106,5 +111,5 @@ public class ConsoleService {
 
         return promptForMenuSelection("       Please choose an ID: ");
     }
- 
+
 }

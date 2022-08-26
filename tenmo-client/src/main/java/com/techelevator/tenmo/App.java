@@ -96,7 +96,7 @@ public class App {
 
 	private void viewCurrentBalance() {
         accountService.setCurrentUser(currentUser);
-        System.out.println(accountService.getAccountBalance());
+        consoleService.printCurrentBalance(accountService.getAccountBalance());
 	}
 
 	private void viewTransferHistory() {
@@ -112,7 +112,6 @@ public class App {
         Transfer[] pendingTransfers = transferService.getAllPendingTransfers();
 
         int selectedTransferId = consoleService.promptAllPendingTransfers(pendingTransfers);
-        int transferStatus = consoleService.promptPendingTransfer();
 	}
 
 	private void sendBucks() {
