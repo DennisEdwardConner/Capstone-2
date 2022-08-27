@@ -91,8 +91,9 @@ public class ConsoleService {
     }
 
     public void printCurrentBalance(BigDecimal balance){
-        System.out.println();
+        System.out.println("\n=========================================");
         System.out.println("Your current balance is: $" + balance);
+        System.out.println("=========================================");
     }
 
     public int promptAllPendingTransfers(Transfer[] transfers){
@@ -111,13 +112,18 @@ public class ConsoleService {
 
         return promptForMenuSelection("       Please choose an ID: ");
     }
-public void displayUsers(User[] users){
-        int number = 1;
-    for (User user: users
-         ) {
-  System.out.println(user.getId() + ": " + user.getUsername() + "   ");
+
+    public void displayUsers(User[] users, AuthenticatedUser currentUser){
+        System.out.printf("Id%15s\n", "Username");
+        for (User user: users) {
+
+            if(user.getUsername().equals(currentUser.getUser().getUsername()))
+                continue;
+
+            System.out.printf("%4d%9s\n", user.getId(), user.getUsername());
         }
     }
+
     public void displayPastTransfer(Transfer[] transfers, int currentAccId) {
         System.out.printf("<------------TRANSFER  HISTORY---------->\n");
         System.out.printf(" %2s%13s%15s\n", "ID", "From/To", "AMOUNT");
@@ -126,15 +132,37 @@ public void displayUsers(User[] users){
 
         for (Transfer transfer : transfers) {
             System.out.printf(" %-4d", transfer.getTransfer_id());
-            System.out.printf("%9s", "");
+            System.out.printf("%4s", "");
             if(currentAccId == transfer.getAccount_to()){
-                System.out.printf("%-11s", "From : " + transfer.getUsername_from());
+                System.out.printf("%-16s", "From: " + transfer.getUsername_from());
             }
             else{
-                System.out.printf("%-11s", "To : " + transfer.getUsername_to());
+                System.out.printf("%-16s", "To: " + transfer.getUsername_to());
             }
             System.out.printf("$%-15.2f", transfer.getAmount().doubleValue());
-            System.out.println("\n=========================================\n");
+            //System.out.println("\n=========================================");
+            System.out.println();
         }
+
+        System.out.println("=========================================");
+    }
+
+    public int promptPendingChange(int transferId){
+        System.out.println("\t1: Approve");
+        System.out.println("\t2: Reject");
+        System.out.println("\t0: Dont Approve or Reject");
+
+        return promptForInt("Please choose an option: ") + 1;
+    }
+
+    public void printTransferDetails(Transfer transfer){
+        System.out.printf("\n<------------TRANSFER  DETAILS---------->\n");
+        System.out.println("\t\tTRANSFER ID: " + transfer.getTransfer_id());
+        System.out.println("\t\tFROM: " + transfer.getUsername_from());
+        System.out.println("\t\tTO:   " + transfer.getUsername_to());
+        System.out.println("\t\tTYPE: " + transfer.getTransfer_type());
+        System.out.println("\t\tSTATUS: " + transfer.getTransfer_status());
+        System.out.println("\t\tAMOUNT: " + transfer.getAmount());
+        System.out.println("=========================================");
     }
 }

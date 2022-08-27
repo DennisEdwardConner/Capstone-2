@@ -33,11 +33,11 @@ public class TransferController {
     }
 
     @RequestMapping(value = "transfer/{transfer_id}", method = RequestMethod.GET)
-    public Transfer getTransferById(@PathVariable int transfer_Id){
-        return transferDao.getTransferById(transfer_Id);
+    public Transfer getTransferById(@PathVariable int transfer_id){
+        return transferDao.getTransferById(transfer_id);
     }
 
-    @RequestMapping(value = "transfer/update", method = RequestMethod.PUT)
+    @RequestMapping(value = "transfer/{transfer_id}/update", method = RequestMethod.PUT)
     public boolean updateTransferStatus(@RequestBody Transfer transfer, @PathVariable int transfer_id ){
         return transferDao.updateTransferStatus(transfer, transfer_id);
     }

@@ -104,6 +104,8 @@ public class App {
 
         int currentAccId = accountService.getByUserId(currentUser.getUser().getId()).getId();
         consoleService.displayPastTransfer(transferService.getPreviousTransfers(), currentAccId);
+        int transferIdSelected = consoleService.promptForInt("Enter transfer ID: ");
+        consoleService.printTransferDetails(transferService.getTransferById(transferIdSelected));
 		
 	}
 
@@ -112,29 +114,90 @@ public class App {
         Transfer[] pendingTransfers = transferService.getAllPendingTransfers();
 
         if(pendingTransfers != null) {
+
+            if(pendingTransfers.length <= 0) {
+                System.out.println("\tNO PENDING REQUESTS!!");
+                return;
+            }
             int selectedTransferId = consoleService.promptAllPendingTransfers(pendingTransfers);
-            
+            int transferStatusId = consoleService.promptPendingChange(selectedTransferId);
+
+            if (transferStatusId == 1)
+                return;
+            else {
+                Transfer transfer = transferService.getTransferById(selectedTransferId);
+                if (transferStatusId == 2) {
+                    if (transfer.getAmount().doubleValue() > accountService.getAccountBalance().doubleValue()) {
+                        System.err.println("ERR: You Do Not Have Enough Money To Approve Request");
+                        transferService.updateTransferStatus(transfer, 3);
+                        return;
+                    }
+                    transferService.sendTEBucks(transfer);
+
+                }
+                transferService.updateTransferStatus(transfer, transferStatusId);
+            }
         } else{
             consoleService.printErrorMessage();
         }
 	}
 
 	private void sendBucks() {
-     consoleService.displayUsers(userService.getAllUsers());
-     long id = consoleService.promptForInt("Enter user ID for transfer: ");
-     BigDecimal amount = consoleService.promptForBigDecimal("Please enter the transfer amount: ");
-     Transfer transfer= new Transfer();
-     // currentUser.getUser.getId returns the account and the .getID returns the account_id **
-     transfer.setAccount_from(accountService.getByUserId(currentUser.getUser().getId()).getId());
-     transfer.setAccount_to_id(accountService.getByUserId(id).getId());
-     transfer.setAmount(amount);
-     transfer.setTransfer_type_id(2);
-     transfer.setTransfer_status_id(2);
-     transferService.sendTEBucks(transfer);
+         consoleService.displayUsers(userService.getAllUsers(), currentUser);
+         long id = consoleService.promptForInt("Enter user ID for transfer: ");
+
+         if(id == currentUser.getUser().getId()){
+             System.err.println("ERR: Cannot Send Money To Yourself!");
+             return;
+         }
+
+         BigDecimal amount = consoleService.promptForBigDecimal("Please enter the transfer amount: ");
+
+         if(amount.doubleValue() <= 0.0){
+             System.err.println("ERR: Transfer Amount Must Be Greater Than $0");
+             return;
+         }else if(amount.doubleValue() > accountService.getAccountBalance().doubleValue()){
+             System.err.println("ERR: Transfer Amount Cannot Be Greater Than Balance");
+             return;
+         }
+
+         Transfer transfer= new Transfer();
+         // currentUser.getUser.getId returns the account and the .getID returns the account_id **
+         transfer.setAccount_from(accountService.getByUserId(currentUser.getUser().getId()).getId());
+         transfer.setAccount_to_id(accountService.getByUserId(id).getId());
+         transfer.setAmount(amount);
+         transfer.setTransfer_type_id(2);
+         transfer.setTransfer_status_id(2);
+         transferService.sendTEBucks(transfer);
     }
 
 	private void requestBucks() {
 		// TODO Auto-generated method stub
-		
+		consoleService.displayUsers(userService.getAllUsers(), currentUser);
+
+        int userId = consoleService.promptForInt("Enter user ID for request: ");
+        int requestId = accountService.getByUserId(userId).getId();
+
+        if(requestId == currentUser.getUser().getId()){
+            System.err.println("ERR: Cannot Request Money From Yourself!");
+            return;
+        }
+
+        BigDecimal amount = consoleService.promptForBigDecimal("Please enter the request amount: ");
+
+        if(amount.doubleValue() <= 0.0){
+            System.err.println("ERR: Request Amount Must Be Greater Than $0");
+            return;
+        }
+
+        Transfer request = new Transfer();
+
+        request.setAmount(amount);
+        request.setTransfer_type_id(1);
+        request.setTransfer_status_id(1);
+        request.setAccount_from(requestId);
+        request.setAccount_to_id(accountService.getByUserId(currentUser.getUser().getId()).getId());
+
+        transferService.createTransferRequest(request);
 	}
 }
