@@ -42,3 +42,12 @@
 2022-08-26T20:20:49.5710815 401 : [no body]
 2022-08-26T20:21:02.9528654 Cannot invoke "com.techelevator.tenmo.model.Transfer.getTransfer_id()" because "requestTransfer" is null
 2022-08-26T20:40:24.3963298 405 : [{"timestamp":"2022-08-27T01:40:24.356+00:00","status":405,"error":"Method Not Allowed","message":"Request method 'PUT' not supported","path":"/transfer/create"}]
+2022-08-26T22:47:40.0784735 401 : [no body]
+2022-08-26T22:47:45.4732182 400 : [{"timestamp":"2022-08-27T03:47:45.464+00:00","status":400,"error":"Bad Request","message":"Validation failed for object='registerUserDTO'. Error count: 1","errors":[{"codes":["NotEmpty.registerUserDTO... (566 bytes)]
+2022-08-26T22:47:49.9248701 400 : [{"timestamp":"2022-08-27T03:47:49.923+00:00","status":400,"error":"Bad Request","message":"User registration failed.","path":"/register"}]
+2022-08-26T22:51:21.0875738 401 : [no body]
+2022-08-26T22:51:25.2995235 401 : [no body]
+2022-08-26T23:48:50.454688 401 : [no body]
+2022-08-26T23:48:52.9533494 401 : [no body]
+2022-08-26T23:48:54.6829176 401 : [no body]
+2022-08-26T23:48:57.9781506 401 : [no body]

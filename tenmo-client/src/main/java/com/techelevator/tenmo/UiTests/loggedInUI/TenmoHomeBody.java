@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.UiTests.loggedInUI;
 
+import com.techelevator.tenmo.UiTests.MyButton;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.services.AccountService;
 
@@ -23,6 +24,7 @@ public class TenmoHomeBody extends JPanel{
 
     public TenmoHomeBody(AuthenticatedUser currentUser){
         setPreferredSize(new Dimension());
+        setLayout(null);
         setBackground(Color.BLUE);
 
         try {
@@ -34,6 +36,15 @@ public class TenmoHomeBody extends JPanel{
         accountService = new AccountService("http://localhost:8080/");
         accountService.setCurrentUser(currentUser);
 
+        setUpButtons();
+    }
+
+    private void setUpButtons(){
+        MyButton sendTenmoButton = new MyButton();
+        sendTenmoButton.setHoverBackgroundColor(new Color(0, 0, 0, 50));
+        sendTenmoButton.setBackground(Color.BLUE);
+
+        add(sendTenmoButton);
     }
 
     @Override
@@ -53,7 +64,7 @@ public class TenmoHomeBody extends JPanel{
         g2D.rotate(ROTATION_RADIANS_FOR_45_DEGREES, 350, 325);
 
         g2D.setFont(new Font(Font.SERIF, Font.BOLD, 60));
-        g2D.drawString("BALANCE " + accountService.getAccountBalance().toString(), 70, 200);
+        g2D.drawString("BALANCE $" + accountService.getAccountBalance().toString(), 75, 200);
 
         g2D.setTransform(oldTransform);
     }
