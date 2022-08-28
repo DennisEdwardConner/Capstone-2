@@ -27,6 +27,7 @@ public class App {
     }
 
     private void run() {
+        new TenmoLoginFrame(authenticationService);
         consoleService.printGreeting();
         loginMenu();
         if (currentUser != null) {
@@ -43,7 +44,6 @@ public class App {
             } else if (menuSelection == 2) {
                 handleLogin();
             } else if (menuSelection == 3) {
-                new TenmoLoginFrame(authenticationService);
             } else if (menuSelection != 0) {
                 System.out.println("Invalid Selection");
                 consoleService.pause();

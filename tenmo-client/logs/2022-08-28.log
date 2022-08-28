@@ -1,0 +1,41 @@
+2022-08-28T00:38:54.9001408 Cannot invoke "com.techelevator.tenmo.model.AuthenticatedUser.getToken()" because "this.currentUser" is null
+2022-08-28T00:40:02.2625637 I/O error on GET request for "https://localhost:8080/users/getAll": Unsupported or unrecognized SSL message; nested exception is javax.net.ssl.SSLException: Unsupported or unrecognized SSL message
+2022-08-28T00:49:07.2512429 401 : [no body]
+2022-08-28T00:49:13.5761356 401 : [no body]
+2022-08-28T00:49:14.0945762 401 : [no body]
+2022-08-28T00:49:14.2413686 401 : [no body]
+2022-08-28T00:49:14.3752921 401 : [no body]
+2022-08-28T00:49:14.4861941 401 : [no body]
+2022-08-28T00:49:14.6091412 401 : [no body]
+2022-08-28T00:49:14.7292749 401 : [no body]
+2022-08-28T00:49:23.7592169 401 : [no body]
+2022-08-28T00:49:53.3456342 401 : [no body]
+2022-08-28T00:50:03.2659267 401 : [no body]
+2022-08-28T00:50:23.9743581 401 : [no body]
+2022-08-28T00:50:44.1812183 401 : [no body]
+2022-08-28T00:51:20.8706946 Cannot invoke "com.techelevator.tenmo.model.AuthenticatedUser.getToken()" because "this.currentUser" is null
+2022-08-28T00:54:01.5639475 I/O error on GET request for "https://localhost:8080/users/getAll": Unsupported or unrecognized SSL message; nested exception is javax.net.ssl.SSLException: Unsupported or unrecognized SSL message
+2022-08-28T00:54:03.2461942 I/O error on GET request for "https://localhost:8080/users/getAll": Unsupported or unrecognized SSL message; nested exception is javax.net.ssl.SSLException: Unsupported or unrecognized SSL message
+2022-08-28T00:54:23.6603853 I/O error on GET request for "https://localhost:8080/users/getAll": Unsupported or unrecognized SSL message; nested exception is javax.net.ssl.SSLException: Unsupported or unrecognized SSL message
+2022-08-28T00:55:27.1489756 I/O error on GET request for "https://localhost:8080/users/getAll": Unsupported or unrecognized SSL message; nested exception is javax.net.ssl.SSLException: Unsupported or unrecognized SSL message
+2022-08-28T00:56:09.29432 I/O error on GET request for "https://localhost:8080/users/getAll": Unsupported or unrecognized SSL message; nested exception is javax.net.ssl.SSLException: Unsupported or unrecognized SSL message
+2022-08-28T02:59:15.4788589 401 : [no body]
+2022-08-28T03:12:10.3213012 401 : [no body]
+2022-08-28T03:22:04.2262338 401 : [no body]
+2022-08-28T03:22:08.6690376 401 : [no body]
+2022-08-28T03:50:01.1332052 401 : [no body]
+2022-08-28T03:50:05.3812515 401 : [no body]
+2022-08-28T03:50:06.0538979 401 : [no body]
+2022-08-28T03:56:14.0300016 401 : [no body]
+2022-08-28T03:56:17.8696861 401 : [no body]
+2022-08-28T03:56:24.3102341 401 : [no body]
+2022-08-28T04:02:13.4280372 401 : [no body]
+2022-08-28T04:02:18.4889074 401 : [no body]
+2022-08-28T04:04:55.9844577 401 : [no body]
+2022-08-28T04:33:21.376151 401 : [no body]
+2022-08-28T04:40:12.0848413 400 : [{"timestamp":"2022-08-28T09:40:12.062+00:00","status":400,"error":"Bad Request","message":"Validation failed for object='registerUserDTO'. Error count: 2","errors":[{"codes":["NotEmpty.registerUserDTO... (947 bytes)]
+2022-08-28T04:48:21.2495447 401 : [no body]
+2022-08-28T04:52:22.8359024 401 : [no body]
+2022-08-28T05:30:22.3750526 401 : [no body]
+2022-08-28T05:52:41.6160485 401 : [no body]
+2022-08-28T05:55:48.5914037 401 : [no body]

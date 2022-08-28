@@ -116,7 +116,7 @@ public class ConsoleService {
             System.out.printf("%9s", "");
             System.out.printf("%-11s", transfer.getUsername_to());
             System.out.printf("$%-15.2f", transfer.getAmount().doubleValue());
-            System.out.println("\n=========================================\n");
+            System.out.println("\n=========================================");
         }
 
         return promptForMenuSelection("       Please choose an ID: ");
@@ -130,13 +130,15 @@ public class ConsoleService {
      */
     public void displayUsers(User[] users, AuthenticatedUser currentUser){
         System.out.printf("Id%15s\n", "Username");
+        System.out.println("=======================");
         for (User user: users) {
 
             if(user.getUsername().equals(currentUser.getUser().getUsername()))
                 continue;
 
-            System.out.printf("%4d%9s\n", user.getId(), user.getUsername());
+            System.out.printf("%4d%5s%-1s\n", user.getId(), "", user.getUsername());
         }
+        System.out.println("=======================");
     }
 
     /**

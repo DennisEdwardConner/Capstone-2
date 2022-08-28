@@ -8,6 +8,7 @@ public class MyButton extends JButton {
 
     private Color hoverBackgroundColor;
     private Color pressedBackgroundColor;
+    private boolean bannerButton = false;
 
     public MyButton() {
         this(null);
@@ -18,9 +19,15 @@ public class MyButton extends JButton {
         super.setContentAreaFilled(false);
     }
 
+    public MyButton(boolean bannerButton){
+        this(null);
+        this.bannerButton = bannerButton;
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2D = (Graphics2D) g;
+
         if (getModel().isPressed()) {
             g2D.setColor(pressedBackgroundColor);
         } else if (getModel().isRollover()) {
@@ -29,8 +36,24 @@ public class MyButton extends JButton {
             g2D.setColor(getBackground());
         }
 
-        g.fillRect(0, 0, getWidth(), getHeight());
-        super.paintComponent(g);
+        if(!bannerButton) {
+            g2D.fillRect(0, 0, getWidth(), getHeight());
+        }
+
+        if(bannerButton){
+            final double ROTATION_RADIANS_FOR_45_DEGREES = 0.785398;
+            AffineTransform oldTransform = g2D.getTransform();
+
+            g2D.setColor(new Color(0, 0, 0 ,0 ));
+
+            g2D.rotate(ROTATION_RADIANS_FOR_45_DEGREES,  getWidth()/2, getHeight()/2);
+
+            g2D.fillRect(0, 0, getWidth(), getHeight());
+
+            g2D.setTransform(oldTransform);
+        }
+
+        super.paintComponent(g2D);
 
     }
 
