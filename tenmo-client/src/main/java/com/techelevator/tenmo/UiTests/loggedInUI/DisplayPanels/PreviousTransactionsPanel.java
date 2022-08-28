@@ -24,7 +24,6 @@ public class PreviousTransactionsPanel extends JPanel implements ActionListener 
     private Color bgColor = new Color(0, 153, 102).darker();
 
     private JScrollPane transferListScrollPane;
-    private JTextArea userListTextArea;
 
     private JTextField userIdTextField = new JTextField();
     private JTextField amountTextField = new JTextField();
@@ -35,12 +34,6 @@ public class PreviousTransactionsPanel extends JPanel implements ActionListener 
     private AccountService accountService = new AccountService("http://localhost:8080/");
 
     private JPanel homePanel;
-    private boolean tooLittleMoney = false;
-    private boolean lettersInInput = false;
-    private boolean invalidUserID = false;
-    private boolean sendingToSelf = false;
-    private boolean negativeSending = false;
-    private boolean smallAmount = false;
 
     public PreviousTransactionsPanel(AuthenticatedUser currentUser, JPanel homePanel){
         setBounds(10, 210, 370, 295);
@@ -62,7 +55,6 @@ public class PreviousTransactionsPanel extends JPanel implements ActionListener 
     }
 
     private void setUpInputFields(){
-        createTextBouncerThread();
 
         BufferedImage historyPanelBgImg = null;
         try {
@@ -126,160 +118,8 @@ public class PreviousTransactionsPanel extends JPanel implements ActionListener 
         add(transferListScrollPane, BorderLayout.WEST);
     }
 
-
-    private void createTextBouncerThread(){
-        Thread textBouncer = new Thread(){
-            long startTime;
-            double elapsedTime = 0;
-            private void bounceTextArea(Component component){
-                elapsedTime += (double)(System.nanoTime() - startTime)/100_000;
-
-                final int MAX_BOUNCE = 2;
-                int bounceAdd = (int) (MAX_BOUNCE * Math.sin(System.nanoTime()/100_000_000));
-                int newY = component.getY() + bounceAdd;
-
-                component.setBounds(component.getX(), newY, component.getWidth(), component.getHeight());
-            }
-
-            public void run(){
-                int userIdFieldDefaultY = 80;
-                int amountFieldDefaultY = 165;
-                while(true){
-                    startTime = System.nanoTime();
-                    try {
-                        sleep(60);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-
-                    if(userIdTextField.isFocusOwner())
-                        bounceTextArea(userIdTextField);
-                    else
-                        userIdTextField.setBounds(userIdTextField.getX(), userIdFieldDefaultY, userIdTextField.getWidth(), userIdTextField.getHeight());
-
-                    if(amountTextField.isFocusOwner())
-                        bounceTextArea(amountTextField);
-                    else
-                        amountTextField.setBounds(amountTextField.getX(), amountFieldDefaultY, amountTextField.getWidth(), amountTextField.getHeight());
-
-                }
-            }
-        };
-
-        textBouncer.start();
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getActionCommand().equals("send")){
-            int userID;
-            BigDecimal amount;
 
-            if(userIdTextField.getText().contains(".")){
-                invalidUserID = true;
-
-                lettersInInput = false;
-                tooLittleMoney = false;
-                sendingToSelf = false;
-                negativeSending = false;
-                smallAmount = false;
-
-                repaint();
-                return;
-            }
-
-            //GET ALL INPUT ERRORS
-            try {
-                userID = Integer.parseInt(userIdTextField.getText());
-                amount = BigDecimal.valueOf(Double.parseDouble(amountTextField.getText()));
-            }catch(NumberFormatException formatException){
-                lettersInInput = true;
-
-                tooLittleMoney = false;
-                invalidUserID = false;
-                sendingToSelf = false;
-                negativeSending = false;
-                smallAmount = false;
-
-                repaint();
-                return;
-            }
-
-            if(amount.doubleValue() > accountService.getAccountBalance().doubleValue()){
-                tooLittleMoney = true;
-
-                lettersInInput = false;
-                invalidUserID = false;
-                sendingToSelf = false;
-                negativeSending = false;
-                smallAmount = false;
-
-                repaint();
-                return;
-            }else if(accountService.getByUserId(userID) == null){
-                invalidUserID = true;
-
-                lettersInInput = false;
-                tooLittleMoney = false;
-                sendingToSelf = false;
-                negativeSending = false;
-                smallAmount = false;
-
-                repaint();
-                return;
-            }else if(userID == currentUser.getUser().getId()){
-                sendingToSelf = true;
-
-                invalidUserID = false;
-                lettersInInput = false;
-                tooLittleMoney = false;
-                negativeSending = false;
-                smallAmount = false;
-
-                repaint();
-                return;
-            }else if(amount.doubleValue() <= 0.0){
-                negativeSending = true;
-
-                sendingToSelf = false;
-                invalidUserID = false;
-                lettersInInput = false;
-                tooLittleMoney = false;
-                smallAmount = false;
-
-                repaint();
-                return;
-            }else if(amount.doubleValue() < 0.01){
-                smallAmount = true;
-
-                negativeSending = false;
-                sendingToSelf = false;
-                invalidUserID = false;
-                lettersInInput = false;
-                tooLittleMoney = false;
-
-                repaint();
-                return;
-            }
-
-
-            //CREATE TRANSER AND SEND IT
-            Transfer sendTransfer = new Transfer();
-            sendTransfer.setTransfer_status_id(2);
-            sendTransfer.setTransfer_type_id(2);
-            sendTransfer.setAccount_from(accountService.getByUserId(currentUser.getUser().getId()).getId());
-            sendTransfer.setAccount_to_id(accountService.getByUserId(userID).getId());
-            sendTransfer.setAmount(amount);
-
-            transferService.sendTEBucks(sendTransfer);
-
-            tooLittleMoney = false;
-            lettersInInput = false;
-            invalidUserID = false;
-            sendingToSelf = false;
-
-            homePanel.repaint();
-        }
     }
 }
