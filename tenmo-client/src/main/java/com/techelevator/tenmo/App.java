@@ -96,10 +96,24 @@ public class App {
         }
     }
 
-	private void viewCurrentBalance() {
+
+    /**
+     * Uses getAccountBalance method from the accountService class obtain the balance from the database and calls the
+     * printCurrentBalance from the consoleService class to display the account balance to the user.
+     */
+    private void viewCurrentBalance() {
         consoleService.printCurrentBalance(accountService.getAccountBalance());
 	}
 
+    /**
+     * Uses the User ID to query the database for the account ID and then Sets it as the current account ID.
+     * Then, calls the displayPastTransfers method from the consoleServices class.
+     * It uses the getPreviousTransfers method from the transferService class to get the transfers and then uses
+     * transfers and account ID as the arguments and displays all transfers for that user.
+     * After, it prompts the user to select one of the transfer ID's listed and stores the selection.
+     * It then uses the selected transfer ID to query the Data base and return the transfer
+     * and then Print the details of the transfer using the printTransferDetails method from the consoleService class
+     */
 	private void viewTransferHistory() {
 
         int currentAccId = accountService.getByUserId(currentUser.getUser().getId()).getId();
@@ -109,6 +123,26 @@ public class App {
 		
 	}
 
+    /**
+     * Sets the current user in the transferService class to the current user
+     * Then queries the Data base for pending transfers and stores then in an array
+     * If no pending transfers are in the database for the user, it tells the user by printing to the console
+     * Then it prompts the user for a transfer ID by calling the promptAllPendingTranfers and using the stored array of
+     * transfers. After it prompts the user to approve reject or do nothing by calling the promptPendingChange method
+     * from the consoleService class.
+     *
+     * If they selected approve it checks to see they have enough TE bucks to send.
+     * If they do not - it updates the status to rejected in the database and tells the user that they do not have enough
+     * Te Bucks to complete the transfer and rejects does not send the money.
+     *
+     * If they have enough TE Bucks - It updates the status to approved in the database and completes the transfer by
+     * calling the sendTEBucks methods from the transferService class.
+     *
+     * If they select reject - it updates status to rejected in the database and does not send the money
+     *
+     * If They choose to neither - it does nothing and the transfer stays in the pending requests and the user is
+     * returned to the main screen for the user.
+     */
 	private void viewPendingRequests() {
 		transferService.setCurrentUser(currentUser);
         Transfer[] pendingTransfers = transferService.getAllPendingTransfers();
@@ -142,6 +176,16 @@ public class App {
         }
 	}
 
+    /**
+     * Calls the displayUsers method from the consoleService class print all the users out
+     * It then prompts the user for a user ID and stores it.
+     * If they select their own user ID it displays an error message saying you can't send yourself money and returns
+     * them to the main screen
+     * If not it prompts them for the amount to transfer and store it by call the promptForBigDecimal method from the
+     * console service class. It displays and error if they try to send more money than they have or try to send bucks
+     * less than or equal to zero. IF they enter a valid ID and Amount it creates a new transfer in the database and
+     * completes transfer of the TE Bucks by calling the SendTEBucks method from the transferService class.
+     */
 	private void sendBucks() {
          consoleService.displayUsers(userService.getAllUsers(), currentUser);
          long id = consoleService.promptForInt("Enter user ID for transfer: ");
@@ -171,8 +215,17 @@ public class App {
          transferService.sendTEBucks(transfer);
     }
 
+    /**
+     * Calls the displayUsers method form the consoleService class and then prompts the user to enter the user ID of
+     * the user to transfer the TE Bucks to and stores it. It then uses the getByUserId method from the accountService
+     * class to get the users account ID. If the user ID selected is the current Users Id it with print an error message
+     * saying you cannot request money from yourself. It then prompts for the amount of the transfer. If the amount isn't
+     * greater than zero, it prints a message that says the transferred amount must be greater than zero. If the
+     * User id selected and amount requested pass, it creates a new transfer request in the database with a pending
+     * status that the requested user can approve or reject.
+     */
 	private void requestBucks() {
-		// TODO Auto-generated method stub
+
 		consoleService.displayUsers(userService.getAllUsers(), currentUser);
 
         int userId = consoleService.promptForInt("Enter user ID for request: ");

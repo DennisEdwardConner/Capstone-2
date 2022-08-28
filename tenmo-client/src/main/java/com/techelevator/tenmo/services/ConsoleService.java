@@ -90,12 +90,21 @@ public class ConsoleService {
         System.out.println("An error occurred. Check the log for details.");
     }
 
+    /**
+     * Takes in the balance and prints to the console
+     * @param balance
+     */
     public void printCurrentBalance(BigDecimal balance){
         System.out.println("\n=========================================");
         System.out.println("Your current balance is: $" + balance);
         System.out.println("=========================================");
     }
 
+    /**
+     * Takes all the transfers and for each one displays them to the console accordingly
+     * @param transfers
+     * @return int from prompted user
+     */
     public int promptAllPendingTransfers(Transfer[] transfers){
         System.out.printf("<------------PENDING TRANSFERS---------->\n");
         System.out.printf(" %2s%13s%15s\n", "ID", "To", "AMOUNT");
@@ -113,6 +122,12 @@ public class ConsoleService {
         return promptForMenuSelection("       Please choose an ID: ");
     }
 
+    /**
+     * Displays all current users available in the system for selection to send/request TE bucks. It displays all users
+     * except for the currentUser. You are not allowed to request or send TE bucks to yourself.
+     * @param users
+     * @param currentUser
+     */
     public void displayUsers(User[] users, AuthenticatedUser currentUser){
         System.out.printf("Id%15s\n", "Username");
         for (User user: users) {
@@ -124,6 +139,12 @@ public class ConsoleService {
         }
     }
 
+    /**
+     * Displays all past transfers. It takes the transfers that are approved or rejected and displays them to the
+     * console and uses logic and the current account id to determine whether the transfer was from or to the current user.
+     * @param transfers
+     * @param currentAccId
+     */
     public void displayPastTransfer(Transfer[] transfers, int currentAccId) {
         System.out.printf("<------------TRANSFER  HISTORY---------->\n");
         System.out.printf(" %2s%13s%15s\n", "ID", "From/To", "AMOUNT");
@@ -147,6 +168,11 @@ public class ConsoleService {
         System.out.println("=========================================");
     }
 
+    /**
+     *
+     * @param transferId
+     * @returns user prompted selection
+     */
     public int promptPendingChange(int transferId){
         System.out.println("\t1: Approve");
         System.out.println("\t2: Reject");
@@ -155,6 +181,10 @@ public class ConsoleService {
         return promptForInt("Please choose an option: ") + 1;
     }
 
+    /**
+     * Uses the selected tranfer and then displays the details of the transaction to the console.
+     * @param transfer
+     */
     public void printTransferDetails(Transfer transfer){
         System.out.printf("\n<------------TRANSFER  DETAILS---------->\n");
         System.out.println("\t\tTRANSFER ID: " + transfer.getTransfer_id());

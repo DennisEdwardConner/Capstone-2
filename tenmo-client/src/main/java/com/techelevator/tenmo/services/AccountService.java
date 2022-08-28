@@ -24,6 +24,10 @@ public class AccountService {
         this.currentUser = currentUser;
     }
 
+    /**
+     * Queries the database for the current users account balance
+     * @returns BigDecimal - account balance
+     */
     public BigDecimal getAccountBalance(){
         ResponseEntity<BigDecimal> response =
                 restTemplate.exchange(API_BASE_URL + "/api/" + currentUser.getUser().getId() + "/getbalance", HttpMethod.GET, makeAuthEntity(), BigDecimal.class);
@@ -31,11 +35,21 @@ public class AccountService {
         return response.getBody();
     }
 
+    /**
+     * Instantiates HttpHeaders to set bearer authority by giving the user access token
+     * @return HttpEntity
+     */
     private HttpEntity<Void> makeAuthEntity(){
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(currentUser.getToken());
         return new HttpEntity<>(headers);
     }
+
+    /**
+     * Queries the Database for the account using the user ID
+     * @param userId
+     * @returns the user's account
+     */
     public Account getByUserId(long userId){
         ResponseEntity<Account> response =
                 restTemplate.exchange(API_BASE_URL + "account/findById/" + userId,
