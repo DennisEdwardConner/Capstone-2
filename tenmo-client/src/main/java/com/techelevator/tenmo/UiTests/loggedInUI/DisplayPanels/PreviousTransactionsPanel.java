@@ -85,7 +85,7 @@ public class PreviousTransactionsPanel extends JPanel implements ActionListener 
         JPanel transferPane = new JPanel();
         transferPane.setPreferredSize(new Dimension(150, 295));
         transferPane.setLayout(null);
-        transferPane.setBackground(Color.yellow);
+        transferPane.setBackground(bgColor);
 
         Transfer[] transferList = transferService.getPreviousTransfers();
 
@@ -93,7 +93,7 @@ public class PreviousTransactionsPanel extends JPanel implements ActionListener 
         for(Transfer transfer : transferList){
             MyButton transferButton = new MyButton(String.valueOf(transfer.getTransfer_id()));
             transferButton.setBackground(bgColor);
-            transferButton.setForeground(Color.yellow.darker());
+            transferButton.setForeground(new Color(215, 255,128));
             transferButton.setHoverBackgroundColor(bgColor.darker());
             transferButton.setFont(new Font(Font.SERIF, Font.BOLD, 20));
             transferButton.setBounds(0, newY, 150, 30);

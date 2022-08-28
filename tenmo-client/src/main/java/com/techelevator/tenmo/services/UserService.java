@@ -29,6 +29,11 @@ public class UserService {
         headers.setBearerAuth(currentUser.getToken());
         return new HttpEntity<>(headers);
     }
+
+    /**
+     *
+     * @return
+     */
     public User[] getAllUsers(){
         ResponseEntity<User[]> response = null;
         User[] users = null;
