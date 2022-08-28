@@ -57,7 +57,8 @@ public class TransferService {
                 }catch (RestClientResponseException | ResourceAccessException | NullPointerException e) {
                     BasicLogger.log(e.getMessage());
                 }
-                return transfers;
+        System.out.println(currentUser.getUser().getUsername());
+        return transfers;
     }
 
     private HttpEntity<Void> makeAuthEntity(){

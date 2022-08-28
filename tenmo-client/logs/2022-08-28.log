@@ -39,3 +39,8 @@
 2022-08-28T05:30:22.3750526 401 : [no body]
 2022-08-28T05:52:41.6160485 401 : [no body]
 2022-08-28T05:55:48.5914037 401 : [no body]
+2022-08-28T16:21:15.5690069 401 : [no body]
+2022-08-28T16:24:23.157732 401 : [no body]
+2022-08-28T16:33:59.1300397 Cannot invoke "com.techelevator.tenmo.model.AuthenticatedUser.getUser()" because "this.currentUser" is null
+2022-08-28T16:46:13.949962 401 : [no body]
+2022-08-28T16:46:18.1908606 401 : [no body]

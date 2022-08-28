@@ -60,9 +60,9 @@ public class JdbcTransferDao implements TransferDao{
                 "JOIN account AS acc_from ON transfer.account_from = acc_from.account_id " +
                 "JOIN tenmo_user AS user_to ON user_to.user_id = acc_to.user_id " +
                 "JOIN tenmo_user AS user_from ON acc_from.user_id = user_from.user_id " +
-                "WHERE transfer_status_desc = 'Approved' OR transfer_status_desc = 'Rejected' " +
-                "AND acc_from.user_id = ? " +
-                "OR acc_to.user_id = ?;";
+                "WHERE acc_from.user_id = ? " +
+                "OR acc_to.user_id = ? " +
+                "AND transfer_status_desc = 'Approved' OR transfer_status_desc = 'Rejected'; ";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id, id);
         while(results.next()){
             transfers.add(mapRowToTransfer(results));

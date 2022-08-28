@@ -34,6 +34,7 @@ public class PreviousTransactionsPanel extends JPanel implements ActionListener 
     private AccountService accountService = new AccountService("http://localhost:8080/");
 
     private JPanel homePanel;
+    private Transfer selectedTransaction;
 
     public PreviousTransactionsPanel(AuthenticatedUser currentUser, JPanel homePanel){
         setBounds(10, 210, 370, 295);
@@ -70,6 +71,32 @@ public class PreviousTransactionsPanel extends JPanel implements ActionListener 
                 Graphics2D g2D = (Graphics2D) g;
 
                 g2D.drawImage(finalHistoryPanelBgImg, 0, 0, 220, 295, this);
+
+
+                if(transferService.getPreviousTransfers().length == 0){
+                    return;
+                }else if(selectedTransaction == null){
+                    selectedTransaction = transferService.getPreviousTransfers()[0];
+                }
+
+                //DRAW TEXT
+                g2D.setColor(Color.WHITE);
+                g2D.setFont(new Font(Font.SERIF, Font.BOLD, 30));
+                g2D.drawString(String.valueOf(selectedTransaction.getTransfer_id()), 65, 45);
+                g2D.drawString(selectedTransaction.getUsername_from(), 110, 85);
+                g2D.drawString(selectedTransaction.getUsername_to(), 60, 125);
+                g2D.drawString(selectedTransaction.getTransfer_type(), 95, 167);
+                g2D.setFont(new Font(Font.SERIF, Font.BOLD, 24));
+
+                if(selectedTransaction.getTransfer_status().equals("Approved"))
+                    g2D.setColor(new Color(14, 163, 63));
+                else if(selectedTransaction.getTransfer_status().equals("Denied"))
+                    g2D.setColor(new Color(255, 135, 162));
+                g2D.drawString(selectedTransaction.getTransfer_status(), 115, 213);
+
+                g2D.setColor(Color.WHITE);
+                g2D.setFont(new Font(Font.SERIF, Font.BOLD, 20));
+                g2D.drawString(selectedTransaction.getAmount().toString(), 135, 255);
             }
         };
         inputFieldPanel.setLayout(null);
@@ -120,6 +147,14 @@ public class PreviousTransactionsPanel extends JPanel implements ActionListener 
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        Transfer[] transferList = transferService.getPreviousTransfers();
 
+        for(int i = 0; i < transferList.length; i++){
+            if(e.getActionCommand().equals(String.valueOf(transferList[i].getTransfer_id()))){
+                selectedTransaction = transferList[i];
+            }
+        }
+
+        repaint();
     }
 }
