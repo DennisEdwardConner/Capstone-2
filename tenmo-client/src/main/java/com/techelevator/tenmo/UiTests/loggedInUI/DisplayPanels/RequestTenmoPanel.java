@@ -40,6 +40,7 @@ public class RequestTenmoPanel extends JPanel implements ActionListener {
     private boolean sendingToSelf = false;
     private boolean negativeSending = false;
     private boolean smallAmount = false;
+    private boolean requestSent = false;
 
     public RequestTenmoPanel(AuthenticatedUser currentUser, JPanel homePanel){
         setBounds(10, 210, 370, 295);
@@ -94,6 +95,9 @@ public class RequestTenmoPanel extends JPanel implements ActionListener {
                 }else if(smallAmount){
                     g2D.setFont(new Font(null, Font.PLAIN, 11));
                     g2D.drawString("Amount Must Be Greater Than One Cent", 7, 220);
+                }else if(requestSent){
+                    g2D.setFont(new Font(null, Font.PLAIN, 11));
+                    g2D.drawString("Request Sent Successfully", 7, 220);
                 }
             }
         };
@@ -242,6 +246,21 @@ public class RequestTenmoPanel extends JPanel implements ActionListener {
             try {
                 userID = Integer.parseInt(userIdTextField.getText());
                 amount = BigDecimal.valueOf(Double.parseDouble(amountTextField.getText()));
+                //CREATE TRANSER AND SEND IT
+                Transfer sendTransfer = new Transfer();
+                sendTransfer.setTransfer_status_id(1);
+                sendTransfer.setTransfer_type_id(1);
+                sendTransfer.setAccount_from(accountService.getByUserId(userID).getId());
+                sendTransfer.setAccount_to_id(accountService.getByUserId(currentUser.getUser().getId()).getId());
+                sendTransfer.setAmount(amount);
+
+                transferService.createTransferRequest(sendTransfer);
+                requestSent = true;
+                tooLittleMoney = false;
+                lettersInInput = false;
+                invalidUserID = false;
+                sendingToSelf = false;
+
             }catch(NumberFormatException formatException){
                 lettersInInput = true;
 
@@ -311,23 +330,6 @@ public class RequestTenmoPanel extends JPanel implements ActionListener {
                 repaint();
                 return;
             }
-
-
-            //CREATE TRANSER AND SEND IT
-            Transfer sendTransfer = new Transfer();
-            sendTransfer.setTransfer_status_id(1);
-            sendTransfer.setTransfer_type_id(1);
-            sendTransfer.setAccount_from(accountService.getByUserId(userID).getId());
-            sendTransfer.setAccount_to_id(accountService.getByUserId(currentUser.getUser().getId()).getId());
-            sendTransfer.setAmount(amount);
-
-            transferService.createTransferRequest(sendTransfer);
-
-            tooLittleMoney = false;
-            lettersInInput = false;
-            invalidUserID = false;
-            sendingToSelf = false;
-
             homePanel.repaint();
         }
     }

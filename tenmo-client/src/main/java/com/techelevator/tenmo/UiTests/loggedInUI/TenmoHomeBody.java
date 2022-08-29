@@ -59,7 +59,7 @@ public class TenmoHomeBody extends JPanel implements ActionListener {
     }
 
     private void setUpPanels(){
-        requestsPanel = new PendingRequestsPanel(currentUser);
+        requestsPanel = new PendingRequestsPanel(currentUser, this);
         transactionsPanel = new PreviousTransactionsPanel(currentUser, this);
         requestPanel = new RequestTenmoPanel(currentUser, this);
         sendPanel = new SendTenmoPanel(currentUser, this);

@@ -25,18 +25,18 @@ public class JdbcTransferDao implements TransferDao{
         List<Transfer> pendingTransferList = new ArrayList<>();
 
         String sql = "SELECT transfer_id, user_from.username AS user_from, user_to.username AS user_to, acc_to.user_id, " +
-                        "transfer_status_desc, transfer_type_desc, account_from, account_to, amount, transfer.transfer_type_id, " +
-                        "transfer.transfer_status_id " +
-                     "FROM transfer " +
-                     "JOIN transfer_status ON transfer.transfer_status_id = transfer_status.transfer_status_id " +
-                     "JOIN transfer_type ON transfer.transfer_type_id = transfer_type.transfer_type_id " +
-                     "JOIN account AS acc_to ON transfer.account_to = acc_to.account_id " +
-                     "JOIN account AS acc_from ON transfer.account_from = acc_from.account_id " +
-                     "JOIN tenmo_user AS user_to ON user_to.user_id = acc_to.user_id " +
-                     "JOIN tenmo_user AS user_from ON acc_from.user_id = user_from.user_id " +
-                     "WHERE transfer_status_desc = 'Pending' " +
-                     "AND transfer_type_desc = 'Request' " +
-                     "AND acc_from.user_id = ?;";
+                "transfer_status_desc, transfer_type_desc, account_from, account_to, amount, transfer.transfer_type_id, " +
+                "transfer.transfer_status_id " +
+                "FROM transfer " +
+                "JOIN transfer_status ON transfer.transfer_status_id = transfer_status.transfer_status_id " +
+                "JOIN transfer_type ON transfer.transfer_type_id = transfer_type.transfer_type_id " +
+                "JOIN account AS acc_to ON transfer.account_to = acc_to.account_id " +
+                "JOIN account AS acc_from ON transfer.account_from = acc_from.account_id " +
+                "JOIN tenmo_user AS user_to ON user_to.user_id = acc_to.user_id " +
+                "JOIN tenmo_user AS user_from ON acc_from.user_id = user_from.user_id " +
+                "WHERE transfer_status_desc = 'Pending' " +
+                "AND transfer_type_desc = 'Request' " +
+                "AND acc_from.user_id = ?;";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
 
@@ -60,9 +60,10 @@ public class JdbcTransferDao implements TransferDao{
                 "JOIN account AS acc_from ON transfer.account_from = acc_from.account_id " +
                 "JOIN tenmo_user AS user_to ON user_to.user_id = acc_to.user_id " +
                 "JOIN tenmo_user AS user_from ON acc_from.user_id = user_from.user_id " +
-                "WHERE transfer_status_desc = 'Approved' OR transfer_status_desc = 'Rejected' " +
-                "AND acc_from.user_id = ? " +
-                "OR acc_to.user_id = ?;";
+                "WHERE acc_from.user_id = ? " +
+                "AND transfer_status_desc = 'Approved' OR transfer_status_desc = 'Rejected' " +
+                "OR acc_to.user_id = ? " +
+                "AND transfer_status_desc = 'Approved' OR transfer_status_desc = 'Rejected'; ";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id, id);
         while(results.next()){
             transfers.add(mapRowToTransfer(results));
@@ -108,7 +109,7 @@ public class JdbcTransferDao implements TransferDao{
         BigDecimal amount = transfer.getAmount();
 
         String sql = "INSERT INTO transfer (account_from, account_to, transfer_status_id, transfer_type_id, amount) " +
-                     "VAlUES (?, ?, ?, ?, ?); ";
+                "VAlUES (?, ?, ?, ?, ?); ";
         System.out.println("before");
         try {
             jdbcTemplate.update(sql, account_from, account_to, transfer_status_id, transfer_type_id, amount);
@@ -122,7 +123,7 @@ public class JdbcTransferDao implements TransferDao{
     @Override
     public boolean updateTransferStatus(Transfer transfer, int id) {
         String sql = "UPDATE transfer SET transfer_status_id = ? " +
-                     "WHERE transfer_id = ?;";
+                "WHERE transfer_id = ?;";
         try {
             jdbcTemplate.update(sql, transfer.getTransfer_status_id(), id);
         } catch (DataAccessException e) {
