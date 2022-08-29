@@ -59,7 +59,7 @@ public class TenmoHomeBody extends JPanel implements ActionListener {
     }
 
     private void setUpPanels(){
-        requestsPanel = new PendingRequestsPanel(currentUser);
+        requestsPanel = new PendingRequestsPanel(currentUser, this);
         transactionsPanel = new PreviousTransactionsPanel(currentUser, this);
         requestPanel = new RequestTenmoPanel(currentUser, this);
         sendPanel = new SendTenmoPanel(currentUser, this);
@@ -148,6 +148,21 @@ public class TenmoHomeBody extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String actionCommand = e.getActionCommand();
 
+        remove(sendPanel);
+        remove(requestsPanel);
+        remove(requestPanel);
+        remove(transactionsPanel);
+
+        sendPanel = new SendTenmoPanel(currentUser, this);
+        requestPanel = new RequestTenmoPanel(currentUser, this);
+        requestsPanel = new PendingRequestsPanel(currentUser, this);
+        transactionsPanel = new PreviousTransactionsPanel(currentUser, this);
+
+        add(sendPanel);
+        add(requestPanel);
+        add(requestsPanel);
+        add(transactionsPanel);
+
         if(actionCommand.equals("sendTenmo")) {
             setAllInvisible();
             sendPanel.setVisible(true);
@@ -166,6 +181,7 @@ public class TenmoHomeBody extends JPanel implements ActionListener {
         }
 
         repaint();
+
     }
 
     private void setAllInvisible(){
@@ -173,5 +189,6 @@ public class TenmoHomeBody extends JPanel implements ActionListener {
         requestPanel.setVisible(false);
         requestsPanel.setVisible(false);
         transactionsPanel.setVisible(false);
+
     }
 }

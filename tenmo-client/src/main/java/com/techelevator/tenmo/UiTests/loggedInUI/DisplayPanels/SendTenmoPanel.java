@@ -43,7 +43,7 @@ public class SendTenmoPanel extends JPanel implements ActionListener {
     private boolean sendingToSelf = false;
     private boolean negativeSending = false;
     private boolean smallAmount = false;
-
+    private boolean tenmoSent = false;
     public SendTenmoPanel(AuthenticatedUser currentUser, JPanel homePanel){
         setBounds(10, 210, 370, 295);
         setBackground(bgColor);
@@ -100,6 +100,10 @@ public class SendTenmoPanel extends JPanel implements ActionListener {
                 }else if(smallAmount){
                     g2D.setFont(new Font(null, Font.PLAIN, 11));
                     g2D.drawString("Amount Must Be Greater Than One Cent", 7, 220);
+                }else if(tenmoSent) {
+                    g2D.setColor(new Color(96, 255, 122));
+                    g2D.setFont(new Font(null, Font.PLAIN, 11));
+                    g2D.drawString("TEnmo Bucks sent successfully", 30, 220);
                 }
             }
         };
@@ -333,7 +337,7 @@ public class SendTenmoPanel extends JPanel implements ActionListener {
             lettersInInput = false;
             invalidUserID = false;
             sendingToSelf = false;
-
+            tenmoSent = true;
             homePanel.repaint();
 
             FlyingMoneyController.flyTenmo(3);

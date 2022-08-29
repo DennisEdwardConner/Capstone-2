@@ -166,7 +166,7 @@ public class App {
                         transferService.updateTransferStatus(transfer, 3);
                         return;
                     }
-                    transferService.sendTEBucks(transfer);
+                    transferService.approveSend(transfer);
 
                 }
                 transferService.updateTransferStatus(transfer, transferStatusId);

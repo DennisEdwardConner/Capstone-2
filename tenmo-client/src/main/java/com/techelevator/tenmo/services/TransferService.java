@@ -57,7 +57,6 @@ public class TransferService {
                 }catch (RestClientResponseException | ResourceAccessException | NullPointerException e) {
                     BasicLogger.log(e.getMessage());
                 }
-        System.out.println(currentUser.getUser().getUsername());
         return transfers;
     }
 
@@ -76,6 +75,20 @@ public class TransferService {
         boolean success= false;
         try {
             response = restTemplate.exchange(API_BASE_URL + "transfer/send", HttpMethod.PUT, entity, boolean.class);
+            response.getBody();
+            success = true;
+        }catch (RestClientResponseException | ResourceAccessException | NullPointerException e) {
+            BasicLogger.log(e.getMessage());
+        }
+        return success;
+    }
+
+    public boolean approveSend(Transfer transfer){
+        ResponseEntity<Boolean> response = null;
+        HttpEntity<Transfer> entity = makeTransferHttpEntity(transfer);
+        boolean success= false;
+        try {
+            response = restTemplate.exchange(API_BASE_URL + "transfer/approve", HttpMethod.PUT, entity, boolean.class);
             response.getBody();
             success = true;
         }catch (RestClientResponseException | ResourceAccessException | NullPointerException e) {

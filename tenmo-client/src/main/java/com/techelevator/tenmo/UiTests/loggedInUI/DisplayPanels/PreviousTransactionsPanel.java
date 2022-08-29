@@ -24,7 +24,6 @@ public class PreviousTransactionsPanel extends JPanel implements ActionListener 
     private Color bgColor = new Color(0, 153, 102).darker();
 
     private JScrollPane transferListScrollPane;
-
     private JTextField userIdTextField = new JTextField();
     private JTextField amountTextField = new JTextField();
 
@@ -89,9 +88,9 @@ public class PreviousTransactionsPanel extends JPanel implements ActionListener 
                 g2D.setFont(new Font(Font.SERIF, Font.BOLD, 24));
 
                 if(selectedTransaction.getTransfer_status().equals("Approved"))
-                    g2D.setColor(new Color(14, 163, 63));
-                else if(selectedTransaction.getTransfer_status().equals("Denied"))
-                    g2D.setColor(new Color(255, 135, 162));
+                    g2D.setColor(new Color(174, 245, 176));
+                else if(selectedTransaction.getTransfer_status().equals("Rejected"))
+                    g2D.setColor(new Color(255, 174, 174));
                 g2D.drawString(selectedTransaction.getTransfer_status(), 115, 213);
 
                 g2D.setColor(Color.WHITE);
@@ -112,7 +111,7 @@ public class PreviousTransactionsPanel extends JPanel implements ActionListener 
         JPanel transferPane = new JPanel();
         transferPane.setPreferredSize(new Dimension(150, 295));
         transferPane.setLayout(null);
-        transferPane.setBackground(Color.yellow);
+        transferPane.setBackground(bgColor);
 
         Transfer[] transferList = transferService.getPreviousTransfers();
 
@@ -155,6 +154,7 @@ public class PreviousTransactionsPanel extends JPanel implements ActionListener 
             }
         }
 
+        homePanel.repaint();
         repaint();
     }
 }

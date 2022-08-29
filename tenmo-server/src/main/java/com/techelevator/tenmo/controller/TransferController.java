@@ -45,4 +45,7 @@ public class TransferController {
     public boolean sendTEBucks(@RequestBody Transfer transfer) {
         return transferDao.sendTEBucks(transfer);
     }
+
+    @RequestMapping(value = "transfer/approve", method = RequestMethod.PUT)
+    public boolean approveSend(@RequestBody Transfer transfer){return transferDao.approveSend(transfer);}
 }

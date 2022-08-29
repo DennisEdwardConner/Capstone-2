@@ -137,6 +137,7 @@ public class TenmoLoginBody extends JPanel implements ActionListener {
         passwordField.setCaretColor(Color.yellow.darker());
         passwordField.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
         passwordField.setBounds(525, 118, TEXT_FIELD_WIDTH, TEXT_FIELD_HEIGHT);
+        passwordField.setActionCommand("textEnter");
         passwordField.setName("passwordField");
         add(passwordField);
 
