@@ -20,6 +20,14 @@ public class JdbcTransferDao implements TransferDao{
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * Queries the database for all transfer requests for the current user with the status pending. It calls the
+     * queryForRowSet method from the jdbcTemplate and uses the User's ID as the wildcard in the SQL statement. It then
+     * loops through the results and using the helper method instantiates the transfer for each row and store the
+     * transfers in a list.
+     * @param userId
+     * @returns List - containing all pending transfers
+     */
     @Override
     public List<Transfer> getAllPendingTransfers(int userId) {
         List<Transfer> pendingTransferList = new ArrayList<>();
@@ -47,6 +55,14 @@ public class JdbcTransferDao implements TransferDao{
         return pendingTransferList;
     }
 
+    /**
+     * Queries the database for all transfer requests for the current user with either an approved or rejected status. It calls the
+     * queryForRowSet method from the jdbcTemplate and uses the User's ID as both wildcards in the SQL statement. It then
+     * loops through the results and using the helper method instantiates the transfer for each row and stores the
+     * transfers in a list.
+     * @param id
+     * @returns List - containing all past completed transactions (non-pending)
+     */
     @Override
     public List<Transfer> getPreviousTransfers(int id) {
         List <Transfer> transfers = new ArrayList<>();
@@ -71,6 +87,13 @@ public class JdbcTransferDao implements TransferDao{
         return transfers;
     }
 
+    /**
+     * Queries the database for a specific transfer. It calls the queryForRowSet method from the jdbcTemplate and takes
+     * in our SQL statement and the transfer ID provided as the wildcard for the statement. Then it calls the
+     * mapRowToTransfer helper method to instantiate the transfer and returns it.
+     * @param id
+     * @returns transfer - the on that corresponds with the ID
+     */
     @Override
     public Transfer getTransferById(int id) {
         Transfer transfer = null;
@@ -92,8 +115,19 @@ public class JdbcTransferDao implements TransferDao{
         return transfer;
     }
 
+    /**
+     * Creates the transfer request in the database completing querying it with an Insert SQL statement.
+     * It takes the transfer provided and uses the getter methods from the transfer class to obtain the transfer type id,
+     * status id, who money is coming from, who is it going to, and the amount. then it calls the update method from the
+     * jdbcTemplate uses the information it just got as the wildcards for the SQL statement. If the update is done
+     * successfully is will print to the console it is updating if not it will display a message to the console with a
+     * message noting why it could not access the data.
+     * @param transfer
+     * @returns transfer - the requested transfer
+     */
     @Override
     public Transfer createTransferRequest(Transfer transfer) {
+//       database visual
 //        {
 //            "transfer_id" : "4",
 //                "transfer_type_id" : "1",
@@ -118,7 +152,15 @@ public class JdbcTransferDao implements TransferDao{
         }
         return transfer;
     }
-    //TODO double check this method
+
+    /**
+     * Queries the database by calling the update method from the jdbcTemplate. We use the getter method from the transfer
+     * class and the transfer provided to get the status ID of the transfer and then use status ID and provided transfer ID
+     * as the wildcards for our SQL statement. If it can't access the data it will print a message to the console.
+     * @param transfer
+     * @param id
+     * @returns true - if it accesses the data and completes the update
+     */
     @Override
     public boolean updateTransferStatus(Transfer transfer, int id) {
         String sql = "UPDATE transfer SET transfer_status_id = ? " +
@@ -132,6 +174,12 @@ public class JdbcTransferDao implements TransferDao{
         return true;
     }
 
+    /**
+     * Helper method - it takes a queried rowset and the calls all the setters from the transfer class and instantiates
+     * transfer to be returned
+     * @param rowSet
+     * @returns transfer - instantiated transfer from the database query
+     */
     private Transfer mapRowToTransfer(SqlRowSet rowSet){
         Transfer transfer = new Transfer();
 
@@ -149,6 +197,14 @@ public class JdbcTransferDao implements TransferDao{
         return transfer;
     }
 
+    /**
+     * Does two update queries in one transaction. The first update is removing the money from the one account and the
+     * second is adding to the other account. It uses the getter methods from the transfer to get the amount, who it is
+     * from, and who it is to. Then it Uses them as the wildcards in the SQL statement. It calls the update method from
+     * the jdbcTemplate and returns false if it cannot access the data.
+     * @param transfer
+     * @returns True - if it accessed the data and completed the approved transfer
+     */
     @Override
     public boolean approveSend(Transfer transfer){
         String sql = "BEGIN TRANSACTION; " +
@@ -169,6 +225,21 @@ public class JdbcTransferDao implements TransferDao{
         return success;
     }
 
+    /**
+     * Does three queries in one SQL transaction.
+     *
+     * First - it inserts the transfer into the database.
+     *
+     * Second - it updates the account balance of the user sending the money by subtracting it from their balance.
+     *
+     * Third - it updates the account balance of the user receiving the money by adding it to their balance.
+     *
+     * It calls the update method from the jdbcTemplate and uses the getters from the transfer to get the id of the
+     * account the money is coming from, the id of the account the money is going to, status id, type id, and the amount
+     * of the transfer. It uses this information as the wildcards in the sql statements.
+     * @param transfer
+     * @returns true - if it accesses the data and completes the transfer
+     */
     @Override
     public boolean sendTEBucks(Transfer transfer){
         String sql = "BEGIN TRANSACTION; " +

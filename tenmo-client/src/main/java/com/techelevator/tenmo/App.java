@@ -10,6 +10,23 @@ import javax.swing.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * This App is a sample of our code for illustration purposes
+ *
+ * @author Tim Casey
+ * @author Dennis Conner
+ * @author Hector Rangel
+ * @author Les Gamble
+ * <p></p>
+ *  <p>Application Management Lead: Dennis Conner</p>
+ *  <p>UI Design Lead: Tim Casey</p>
+ *  <p>Debugging Lead: Hector Rangel</p>
+ *  <p>Structures and Build Lead: Les Gamble</p>
+ *
+ * @since 2.7
+ * @Updated 8/29/2022
+ *
+ */
 public class App {
 
     private static final String API_BASE_URL = "http://localhost:8080/";
@@ -206,7 +223,6 @@ public class App {
          }
 
          Transfer transfer= new Transfer();
-         // currentUser.getUser.getId returns the account and the .getID returns the account_id **
          transfer.setAccount_from(accountService.getByUserId(currentUser.getUser().getId()).getId());
          transfer.setAccount_to_id(accountService.getByUserId(id).getId());
          transfer.setAmount(amount);

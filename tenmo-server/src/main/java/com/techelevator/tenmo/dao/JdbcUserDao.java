@@ -21,6 +21,14 @@ public class JdbcUserDao implements UserDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * Queries the database by calling the jdbcTemplate's queryForObject method.
+     * It uses the takes in the SQL statement we wrote and calls the queryForObject method form the jdbcTemplate class.
+     * The method takes in the statement the integer class to mark the return type and the username which is replaces
+     * with the wildcard ? in the statement. This Allows it to search by any username.
+     * @param username
+     * @return integer -> User ID
+     */
     @Override
     public int findIdByUsername(String username) {
         String sql = "SELECT user_id FROM tenmo_user WHERE username ILIKE ?;";
@@ -32,6 +40,12 @@ public class JdbcUserDao implements UserDao {
         }
     }
 
+    /**
+     * Queries the database queries the database for all users in the database by calling the jdbcTemplate's
+     * queryForObject method. It uses the takes in the SQL statement we wrote. Then it loops through the results.
+     * It calls the mapRowToUser to instantiate the Users and adds each one to the list.
+     * @returns List of Users
+     */
     @Override
     public List<User> findAll() {
         List<User> users = new ArrayList<>();
@@ -44,6 +58,14 @@ public class JdbcUserDao implements UserDao {
         return users;
     }
 
+    /**
+     * Queries the database by calling the jdbcTemplate's queryForRowSet method.
+     * It uses the takes in the SQL statement we wrote and the username as the arguments.
+     * Then it calls the mapRowToUser to instantiate the user for the return.
+     * @param username
+     * @returns a User
+     * @throws UsernameNotFoundException
+     */
     @Override
     public User findByUsername(String username) throws UsernameNotFoundException {
         String sql = "SELECT user_id, username, password_hash FROM tenmo_user WHERE username ILIKE ?;";
@@ -54,6 +76,22 @@ public class JdbcUserDao implements UserDao {
         throw new UsernameNotFoundException("User " + username + " was not found.");
     }
 
+    /**
+     * This does two queries:
+     *
+     * First- it creates the user with an Insert SQL statement to add it. It calls the queryForObject method from the
+     * jdbcTemplate and takes in the username and password provided and replaces them with the wildcards from the SQL
+     * statement. The query returns the USER ID and stores it.
+     *
+     * Second- It creates the account by using a different Insert SQL statement. It calls the update method from the \
+     * jdbcTemplate and puts in the USER ID that was returned from the first query and the constant for the $1,000.00
+     * starting balance that each user gets.
+     * in for the values
+     * @param username
+     * @param password
+     * @returns true - when it accesses the data and the User and Account are created.
+     *
+     */
     @Override
     public boolean create(String username, String password) {
 
@@ -78,11 +116,17 @@ public class JdbcUserDao implements UserDao {
         return true;
     }
 
-    private User mapRowToUser(SqlRowSet rs) {
+    /**
+     * This helper method takes in the queried information from the database and uses it to instantiate the User by
+     * calling all the setter methods to set the Id, Username, Password, activation status and authorities.
+     * @param rowSet
+     * @returns a User
+     */
+    private User mapRowToUser(SqlRowSet rowSet) {
         User user = new User();
-        user.setId(rs.getLong("user_id"));
-        user.setUsername(rs.getString("username"));
-        user.setPassword(rs.getString("password_hash"));
+        user.setId(rowSet.getLong("user_id"));
+        user.setUsername(rowSet.getString("username"));
+        user.setPassword(rowSet.getString("password_hash"));
         user.setActivated(true);
         user.setAuthorities("USER");
         return user;
