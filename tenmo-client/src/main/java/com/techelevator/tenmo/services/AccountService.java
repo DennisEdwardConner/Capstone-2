@@ -50,7 +50,7 @@ public class AccountService {
      * @param userId
      * @returns the user's account
      */
-    public Account getByUserId(long userId){
+    public Account getByUserId(int userId){
         ResponseEntity<Account> response =
                 restTemplate.exchange(API_BASE_URL + "account/findById/" + userId,
                         HttpMethod.GET, makeAuthEntity(), Account.class);

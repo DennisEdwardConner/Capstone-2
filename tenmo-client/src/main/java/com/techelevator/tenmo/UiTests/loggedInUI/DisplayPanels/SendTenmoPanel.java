@@ -159,7 +159,7 @@ public class SendTenmoPanel extends JPanel implements ActionListener {
         int maxChar = 10;
         for(User user : userList){
 
-            if(user.getId().equals(currentUser.getUser().getId()))
+            if(user.getId() == (currentUser.getUser().getId()))
                 continue;
 
             int userLength = user.getUsername().length();

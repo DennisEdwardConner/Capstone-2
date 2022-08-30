@@ -8,7 +8,7 @@ public interface TransferDao {
 
     List<Transfer> getAllPendingTransfers(int accountFrom);
 
-    List<Transfer> getPreviousTransfers(int id);
+    List<Transfer> getPreviousTransfers(int acc_id);
 
     Transfer getTransferById(int id);
 

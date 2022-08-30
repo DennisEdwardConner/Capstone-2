@@ -60,11 +60,11 @@ public class JdbcTransferDao implements TransferDao{
      * queryForRowSet method from the jdbcTemplate and uses the User's ID as both wildcards in the SQL statement. It then
      * loops through the results and using the helper method instantiates the transfer for each row and stores the
      * transfers in a list.
-     * @param id
+     * @param acc_id
      * @returns List - containing all past completed transactions (non-pending)
      */
     @Override
-    public List<Transfer> getPreviousTransfers(int id) {
+    public List<Transfer> getPreviousTransfers(int acc_id) {
         List <Transfer> transfers = new ArrayList<>();
         String sql = "SELECT transfer_id, user_from.username AS user_from, user_to.username AS user_to, acc_to.user_id, " +
                 "transfer_status_desc, transfer_type_desc, account_from, account_to, amount, transfer.transfer_type_id, " +
@@ -80,7 +80,8 @@ public class JdbcTransferDao implements TransferDao{
                 "AND transfer_status_desc = 'Approved' OR transfer_status_desc = 'Rejected' " +
                 "OR acc_to.user_id = ? " +
                 "AND transfer_status_desc = 'Approved' OR transfer_status_desc = 'Rejected'; ";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, id, id);
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, acc_id, acc_id);
+
         while(results.next()){
             transfers.add(mapRowToTransfer(results));
         }
@@ -227,13 +228,13 @@ public class JdbcTransferDao implements TransferDao{
 
     /**
      * Does three queries in one SQL transaction.
-     *
+     *<p></p>
      * First - it inserts the transfer into the database.
-     *
+     *<p></p>
      * Second - it updates the account balance of the user sending the money by subtracting it from their balance.
-     *
+     *<p></p>
      * Third - it updates the account balance of the user receiving the money by adding it to their balance.
-     *
+     *<p></p>
      * It calls the update method from the jdbcTemplate and uses the getters from the transfer to get the id of the
      * account the money is coming from, the id of the account the money is going to, status id, type id, and the amount
      * of the transfer. It uses this information as the wildcards in the sql statements.

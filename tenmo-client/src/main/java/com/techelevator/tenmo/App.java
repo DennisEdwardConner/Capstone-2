@@ -5,26 +5,26 @@ import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.*;
-
 import javax.swing.*;
 import java.math.BigDecimal;
 import java.util.List;
 
 /**
  * This App is a sample of our code for illustration purposes
- *
+ * <p></p>
+ * Updated (08/29/2022)
  * @author Tim Casey
  * @author Dennis Conner
  * @author Hector Rangel
  * @author Les Gamble
  * <p></p>
- *  <p>Application Management Lead: Dennis Conner</p>
- *  <p>UI Design Lead: Tim Casey</p>
- *  <p>Debugging Lead: Hector Rangel</p>
- *  <p>Structures and Build Lead: Les Gamble</p>
+ *  <p>Application Management Lead : Dennis Conner</p>
+ *  <p>UI Design Lead : Tim Casey</p>
+ *  <p>Debugging Lead : Hector Rangel</p>
+ *  <p>Structures and Build Lead : Les Gamble</p>
  *
  * @since 2.7
- * @Updated 8/29/2022
+ *
  *
  */
 public class App {
@@ -87,6 +87,7 @@ public class App {
         accountService.setCurrentUser(currentUser);
         transferService.setCurrentUser(currentUser);
         userService.setCurrentUser(currentUser);
+
     }
 
     private void mainMenu() {
@@ -134,6 +135,8 @@ public class App {
 	private void viewTransferHistory() {
 
         int currentAccId = accountService.getByUserId(currentUser.getUser().getId()).getId();
+       //testing
+        System.out.println("current Acc ID : " + currentAccId);
         consoleService.displayPastTransfer(transferService.getPreviousTransfers(), currentAccId);
         int transferIdSelected = consoleService.promptForInt("Enter transfer ID: ");
         consoleService.printTransferDetails(transferService.getTransferById(transferIdSelected));
@@ -167,7 +170,7 @@ public class App {
         if(pendingTransfers != null) {
 
             if(pendingTransfers.length <= 0) {
-                System.out.println("\tNO PENDING REQUESTS!!");
+                System.out.println("\tNo Pending Requests...");
                 return;
             }
             int selectedTransferId = consoleService.promptAllPendingTransfers(pendingTransfers);
@@ -205,7 +208,7 @@ public class App {
      */
 	private void sendBucks() {
          consoleService.displayUsers(userService.getAllUsers(), currentUser);
-         long id = consoleService.promptForInt("Enter user ID for transfer: ");
+         int id = consoleService.promptForInt("Enter user ID for transfer: ");
 
          if(id == currentUser.getUser().getId()){
              System.err.println("ERR: Cannot Send Money To Yourself!");
@@ -229,6 +232,7 @@ public class App {
          transfer.setTransfer_type_id(2);
          transfer.setTransfer_status_id(2);
          transferService.sendTEBucks(transfer);
+        System.out.println("TEBucks Sent successfully");
     }
 
     /**
@@ -268,5 +272,6 @@ public class App {
         request.setAccount_to_id(accountService.getByUserId(currentUser.getUser().getId()).getId());
 
         transferService.createTransferRequest(request);
+        System.out.println("Request Sent successfully");
 	}
 }

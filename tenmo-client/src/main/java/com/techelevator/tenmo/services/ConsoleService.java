@@ -49,8 +49,18 @@ public class ConsoleService {
     }
 
     public UserCredentials promptForCredentials() {
-        String username = promptForString("Username: ");
-        String password = promptForString("Password: ");
+        String username;
+        String password;
+         username = promptForString("Username: ");
+         while(username.isEmpty()){
+             System.out.println("Invalid entry. Username field cannot be blank." );
+             username = promptForString("Username: ");
+         }
+         password = promptForString("Password: ");
+        while(password.isEmpty()){
+            System.out.println("Invalid entry. Username field cannot be blank.");
+            password = promptForString("Password: ");
+        }
         return new UserCredentials(username, password);
     }
 
@@ -171,7 +181,7 @@ public class ConsoleService {
     }
 
     /**
-     *
+     *Prompts the user to either approve, reject or do neither.
      * @param transferId
      * @returns user prompted selection
      */
@@ -180,7 +190,7 @@ public class ConsoleService {
         System.out.println("\t2: Reject");
         System.out.println("\t0: Dont Approve or Reject");
 
-        return promptForInt("Please choose an option: ") + 1;
+        return promptForInt("Please choose an option: ")+1;
     }
 
     /**
