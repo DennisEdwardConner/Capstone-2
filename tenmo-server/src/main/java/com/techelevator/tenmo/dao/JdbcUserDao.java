@@ -78,15 +78,15 @@ public class JdbcUserDao implements UserDao {
 
     /**
      * This does two queries:
-     *
+     *<p></p>
      * First- it creates the user with an Insert SQL statement to add it. It calls the queryForObject method from the
      * jdbcTemplate and takes in the username and password provided and replaces them with the wildcards from the SQL
      * statement. The query returns the USER ID and stores it.
-     *
+     *<p></p>
      * Second- It creates the account by using a different Insert SQL statement. It calls the update method from the \
      * jdbcTemplate and puts in the USER ID that was returned from the first query and the constant for the $1,000.00
-     * starting balance that each user gets.
-     * in for the values
+     * starting balance that each user gets in for the values.
+     * <p></p>
      * @param username
      * @param password
      * @returns true - when it accesses the data and the User and Account are created.

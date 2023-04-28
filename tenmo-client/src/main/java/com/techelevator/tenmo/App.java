@@ -5,12 +5,12 @@ import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.*;
-import javax.swing.*;
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * This App is a sample of our code for illustration purposes
+ * <p></p>
+ * It's a banking app called TEnmo.
  * <p></p>
  * Updated (08/29/2022)
  * @author Tim Casey
@@ -30,7 +30,6 @@ import java.util.List;
 public class App {
 
     private static final String API_BASE_URL = "http://localhost:8080/";
-
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
     private final AccountService accountService = new AccountService(API_BASE_URL);
@@ -44,7 +43,6 @@ public class App {
     }
 
     private void run() {
-        new TenmoLoginFrame(authenticationService);
         consoleService.printGreeting();
         loginMenu();
         if (currentUser != null) {
@@ -61,6 +59,7 @@ public class App {
             } else if (menuSelection == 2) {
                 handleLogin();
             } else if (menuSelection == 3) {
+                new TenmoLoginFrame(authenticationService);
             } else if (menuSelection != 0) {
                 System.out.println("Invalid Selection");
                 consoleService.pause();
@@ -90,6 +89,7 @@ public class App {
 
     }
 
+
     private void mainMenu() {
         int menuSelection = -1;
         while (menuSelection != 0) {
@@ -106,6 +106,9 @@ public class App {
             } else if (menuSelection == 5) {
                 requestBucks();
             } else if (menuSelection == 0) {
+                System.out.println("*********************************");
+                System.out.println("* Thank you for choosing TEnmo! *");
+                System.out.println("*********************************");
                 continue;
             } else {
                 System.out.println("Invalid Selection");
@@ -135,12 +138,15 @@ public class App {
 	private void viewTransferHistory() {
 
         int currentAccId = accountService.getByUserId(currentUser.getUser().getId()).getId();
-       //testing
-        System.out.println("current Acc ID : " + currentAccId);
         consoleService.displayPastTransfer(transferService.getPreviousTransfers(), currentAccId);
-        int transferIdSelected = consoleService.promptForInt("Enter transfer ID: ");
-        consoleService.printTransferDetails(transferService.getTransferById(transferIdSelected));
-		
+        int transferIdSelected = consoleService.promptForInt(
+                "Enter transfer ID to see datails or 0 to go back: ");
+        if(transferIdSelected == 0) {
+            return;
+        }
+        else {
+            consoleService.printTransferDetails(transferService.getTransferById(transferIdSelected));
+        }
 	}
 
     /**
@@ -180,15 +186,13 @@ public class App {
                 return;
             else {
                 Transfer transfer = transferService.getTransferById(selectedTransferId);
-                if (transferStatusId == 2) {
+
                     if (transfer.getAmount().doubleValue() > accountService.getAccountBalance().doubleValue()) {
                         System.err.println("ERR: You Do Not Have Enough Money To Approve Request");
                         transferService.updateTransferStatus(transfer, 3);
                         return;
                     }
                     transferService.approveSend(transfer);
-
-                }
                 transferService.updateTransferStatus(transfer, transferStatusId);
             }
         } else{

@@ -44,7 +44,8 @@ public class JdbcTransferDao implements TransferDao{
                 "JOIN tenmo_user AS user_from ON acc_from.user_id = user_from.user_id " +
                 "WHERE transfer_status_desc = 'Pending' " +
                 "AND transfer_type_desc = 'Request' " +
-                "AND acc_from.user_id = ?;";
+                "AND acc_from.user_id = ?; ";
+
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
 
@@ -262,4 +263,6 @@ public class JdbcTransferDao implements TransferDao{
         }
         return success;
     }
+
+
 }
